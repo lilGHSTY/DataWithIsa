@@ -16,15 +16,24 @@ Hooks are automated commands that run when Claude Code performs certain actions.
 **Why useful**: Ensures consistent code style without you or Claude thinking about it
 **Example**: If Claude writes messy Python code, it gets cleaned up automatically
 
-### 2. Log Research Activities (PostToolUse)
-**When it runs**: After Claude searches the web or fetches a webpage
-**What it does**: Creates a log entry in `research/research-log.md`
-**Why useful**: You can see all research Claude did, even across sessions
+### 2. Intelligent Research Capture (PostToolUse)
+**When it runs**: After Claude fetches documentation from the web
+**What it does**: 
+- Logs all web research in `research/logs/research-log.md`
+- **Smart filtering**: Only captures official docs/guides/tutorials
+- **Auto-organizes**: Saves to `research/[technology]/docs.md` by technology
+- **No duplicates**: Skips URLs already researched
+
+**Why useful**: Claude builds a knowledge base about your tech stack automatically
 **Example**: 
 ```
-[2024-01-10 14:23:45] Researched: https://flask.palletsprojects.com/
-[2024-01-10 14:24:12] Researched: flask authentication best practices
+# Claude researches Flask authentication
+https://flask.palletsprojects.com/en/3.0.x/tutorial/auth/
+↓ Automatically saved to:
+research/flask/docs.md
 ```
+
+**Technologies detected**: flask, django, python, javascript, react, vue, postgresql, mysql, stripe, aws, docker, nginx, and more
 
 ### 3. Track File Modifications (PostToolUse)
 **When it runs**: After Claude creates or modifies any file
@@ -42,15 +51,52 @@ Hooks are automated commands that run when Claude Code performs certain actions.
 **Why useful**: Prevents accidentally exposing sensitive data
 **Example**: If Claude tries to write `OPENAI_KEY="sk-abc123..."`, it gets blocked
 
-### 5. Protect Critical Files (PreToolUse)
+### 5. Research Activity Logging (PostToolUse)
+**When it runs**: After Claude performs web searches
+**What it does**: Logs search queries in `research/logs/research-log.md`
+**Why useful**: Track what Claude searched for, helps understand context gathering
+**Example**: 
+```
+[2024-01-10 14:24:12] Search: flask authentication best practices
+```
+
+### 6. Auto-Update Documentation Index (PostToolUse)
+**When it runs**: After Claude creates new documentation files
+**What it does**: Automatically adds new docs to `docs/README.md` index
+**Why useful**: Keeps documentation organized without manual updates
+**Example**: Creating `docs/DEPLOYMENT.md` automatically adds it to the docs index
+
+### 7. Protect Critical Files (PreToolUse)
 **When it runs**: BEFORE Claude modifies .env or hooks.json
 **What it does**: Blocks the modification entirely
 **Why useful**: Prevents Claude from accidentally breaking your configuration
 **Example**: Claude can read .env but cannot modify it
 
-### 6. Session Summary (Stop)
+### 8. Setup Guidance (PreToolUse)
+**When it runs**: BEFORE Claude writes Python code
+**What it does**: Checks if project setup is complete, reminds to finish setup if needed
+**Why useful**: Prevents coding before proper project configuration
+**Example**: Shows "Consider completing project setup first" if requirements aren't filled out
+
+### 9. Session Summary (Stop)
 **When it runs**: When you end your Claude Code session
-**What it does**: Adds a timestamp to mark the session end
+**What it does**: Adds a timestamp to mark the session end in `docs/PROGRESS.md`
+**Why useful**: Clear separation between different work sessions
+**Example**: 
+```
+=== Session ended at 2024-01-10 16:30:15 ===
+```
+
+### 10. Research Summary (Stop)
+**When it runs**: When you end your Claude Code session
+**What it does**: Adds recent research to the session summary
+**Why useful**: See what was researched during each session
+**Example**: 
+```
+## Recent Research
+[2024-01-10 16:25:12] https://flask.palletsprojects.com/auth/
+[2024-01-10 16:28:45] Search: PostgreSQL indexing best practices
+```
 **Why useful**: Clear session boundaries in your progress log
 
 ## When Would You Use Them?

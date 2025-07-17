@@ -51,18 +51,28 @@ Pre-written outlines for important project documents:
 
 **Why they help:** Professional projects need professional documentation. These templates ensure you don't forget important things.
 
-### 4. Research System
+### 4. Intelligent Research System
 
 **How it works:**
-1. During setup, you mention technologies you want to use
-2. Claude automatically researches those technologies
-3. It finds official documentation, best practices, examples
-4. Everything gets organized in folders for easy reference
-5. Claude uses this research to give you better advice
+1. **Throughout development**, when Claude researches official documentation
+2. **Smart filtering**: Only captures docs/guides/tutorials (not random sites)
+3. **No duplicates**: Skips URLs already researched
+4. **Auto-organization**: Sorts by technology (Flask, PostgreSQL, etc.)
+5. **Progressive learning**: Claude gets smarter about your stack over time
 
-**Think of it like:** Having a research assistant who reads all the manuals and expert guides, then gives you the highlights when you need them.
+**Examples of what gets captured:**
+- ✅ `flask.palletsprojects.com/en/3.0.x/quickstart/` → `research/flask/docs.md`
+- ✅ `stripe.com/docs/api` → `research/stripe/docs.md`
+- ❌ `stackoverflow.com/questions/...` → (ignored - not official docs)
+- ❌ Already researched URLs → (skipped)
 
-**What makes it special:** Instead of you having to research everything, Claude does it automatically and keeps it organized.
+**Think of it like:** Having a research assistant who automatically files away official manuals when they're mentioned, so Claude can reference them later.
+
+**What makes it special:** 
+- **Passive**: Happens automatically without slowing you down
+- **Smart**: Only saves valuable official documentation  
+- **Persistent**: Research accumulates across all sessions
+- **Contextual**: Claude uses this knowledge to give better advice
 
 ### 5. Slash Commands
 

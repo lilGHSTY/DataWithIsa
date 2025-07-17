@@ -13,13 +13,24 @@
         ]
       },
       {
-        "name": "Log research activities",
-        "matcher": "WebFetch|WebSearch",
+        "name": "Intelligent research capture",
+        "matcher": "WebFetch",
         "hooks": [
           {
             "type": "command",
-            "command": "mkdir -p research && echo \"[$(date '+%Y-%m-%d %H:%M:%S')] Researched: ${url:-${query}}\" >> research/research-log.md",
-            "description": "Tracks all web research performed"
+            "command": "mkdir -p research/logs && echo \"[$(date '+%Y-%m-%d %H:%M:%S')] ${url}\" >> research/logs/research-log.md && if [[ \"${url}\" =~ (docs|documentation|guide|tutorial|reference|api) ]] && ! grep -q \"${url}\" research/logs/research-log.md 2>/dev/null || true; then tech=$(echo \"${url}\" | grep -oE '(flask|django|python|javascript|react|vue|node|express|postgresql|mysql|sqlite|redis|stripe|sendgrid|aws|docker|nginx)' | head -1); if [[ -n \"$tech\" ]]; then mkdir -p \"research/$tech\" && echo \"[$(date '+%Y-%m-%d')] ${url}\" >> \"research/$tech/docs.md\" && echo \"INFO: Captured $tech documentation for future reference\"; fi; fi",
+            "description": "Intelligently captures official documentation for technologies"
+          }
+        ]
+      },
+      {
+        "name": "Research activity logging",
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p research/logs && echo \"[$(date '+%Y-%m-%d %H:%M:%S')] Search: ${query}\" >> research/logs/research-log.md",
+            "description": "Logs search queries for context tracking"
           }
         ]
       },
@@ -29,8 +40,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo \"- [$(date '+%Y-%m-%d')] Modified: ${file_path}\" >> docs/PROGRESS.md",
+            "command": "echo \"- [$(date '+%Y-%m-%d %H:%M')] Modified: ${file_path}\" >> docs/PROGRESS.md",
             "description": "Logs all file changes to progress document"
+          }
+        ]
+      },
+      {
+        "name": "Auto-update docs index",
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"${file_path}\" == docs/*.md ]] && [[ \"${file_path}\" != docs/README.md ]] && [[ \"${file_path}\" != docs/PROGRESS.md ]]; then filename=$(basename \"${file_path}\" .md); if ! grep -q \"$filename\" docs/README.md 2>/dev/null; then echo \"- [$filename]($(basename \"${file_path}\"))\" >> docs/README.md; fi; fi",
+            "description": "Auto-updates documentation index when new docs are created"
           }
         ]
       }
@@ -57,6 +79,17 @@
             "description": "Prevents modification of .env and hooks.json files"
           }
         ]
+      },
+      {
+        "name": "Setup guidance",
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"${file_path}\" == src/*.py ]] && [[ ! -f \".env\" ]] && (! [[ -f \"docs/REQUIREMENTS.md\" ]] || grep -q '\\[Describe what you\\'re building\\]' docs/REQUIREMENTS.md 2>/dev/null); then echo 'INFO: Consider completing project setup first. Use: /setup-project or say \"help me set up this project\"'; fi",
+            "description": "Reminds to complete setup before coding"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -67,6 +100,16 @@
             "type": "command",
             "command": "echo \"\\n=== Session ended at $(date '+%Y-%m-%d %H:%M:%S') ===\\n\" >> docs/PROGRESS.md",
             "description": "Marks the end of each Claude Code session"
+          }
+        ]
+      },
+      {
+        "name": "Research summary",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -f \"research/logs/research-log.md\" ]]; then recent_research=$(tail -3 research/logs/research-log.md 2>/dev/null); if [[ -n \"$recent_research\" ]]; then echo \"\\n## Recent Research\" >> docs/PROGRESS.md && echo \"$recent_research\" >> docs/PROGRESS.md; fi; fi",
+            "description": "Adds recent research to session summary"
           }
         ]
       }
