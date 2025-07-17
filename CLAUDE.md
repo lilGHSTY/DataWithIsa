@@ -3,6 +3,11 @@
 Welcome Claude Code! This file contains project-specific instructions for working on this codebase.
 
 ## Quick Start
+
+### For New Projects:
+If this is a fresh skeleton, read `.claude/SETUP_GUIDE.md` and help the user through setup.
+
+### For Existing Projects:
 1. Read `.claude/CONVENTIONS.md` for development standards
 2. Check `.claude/DECISIONS.md` for technical choices
 3. Review `docs/REQUIREMENTS.md` for what we're building

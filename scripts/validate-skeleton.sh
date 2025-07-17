@@ -13,8 +13,12 @@ REQUIRED_FILES=(
     ".claude/CONVENTIONS.md"
     ".claude/DECISIONS.md" 
     ".claude/RESEARCH.md"
+    ".claude/SETUP_GUIDE.md"
     ".claude/HOOKS_GUIDE.md"
     ".claude/hooks.json"
+    ".claude/commands/research.md"
+    ".claude/commands/setup-project.md"
+    ".claude/commands/validate-setup.md"
     "CLAUDE.md"
     "README.md"
     "Makefile"
@@ -22,10 +26,14 @@ REQUIRED_FILES=(
     ".gitignore"
     "docs/REQUIREMENTS.md"
     "docs/ARCHITECTURE.md"
+    "docs/STYLE_GUIDE.md"
+    "docs/API_REFERENCE.md"
+    "docs/TESTING_STRATEGY.md"
+    "docs/SETUP_CHECKLIST.md"
+    "docs/UNDERSTANDING_THE_SYSTEM.md"
     "docs/PROGRESS.md"
     "research/README.md"
-    "scripts/setup.sh"
-    "scripts/project-wizard.py"
+    "scripts/bootstrap.sh"
 )
 
 echo "Checking required files..."
@@ -41,6 +49,7 @@ done
 # Check required directories
 REQUIRED_DIRS=(
     ".claude"
+    ".claude/commands"
     "docs"
     "research" 
     "scripts"
@@ -67,27 +76,17 @@ done
 # Check script permissions
 echo ""
 echo "Checking script permissions..."
-if [ -x "scripts/setup.sh" ]; then
-    echo "✓ setup.sh is executable"
+if [ -x "scripts/bootstrap.sh" ]; then
+    echo "✓ bootstrap.sh is executable"
 else
-    echo "❌ setup.sh is not executable"
+    echo "❌ bootstrap.sh is not executable"
     ERRORS=$((ERRORS + 1))
 fi
 
-if [ -x "scripts/project-wizard.py" ]; then
-    echo "✓ project-wizard.py is executable"
+if [ -x "scripts/validate-skeleton.sh" ]; then
+    echo "✓ validate-skeleton.sh is executable"
 else
-    echo "❌ project-wizard.py is not executable"
-    ERRORS=$((ERRORS + 1))
-fi
-
-# Check Python syntax
-echo ""
-echo "Checking Python syntax..."
-if python3 -m py_compile scripts/project-wizard.py 2>/dev/null; then
-    echo "✓ project-wizard.py syntax valid"
-else
-    echo "❌ project-wizard.py has syntax errors"
+    echo "❌ validate-skeleton.sh is not executable"
     ERRORS=$((ERRORS + 1))
 fi
 

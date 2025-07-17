@@ -552,39 +552,30 @@ else
     fi
 fi
 
-# Run project wizard
+# Guide to Claude Code setup
 echo ""
-echo "Running project customization wizard..."
+echo "🤖 Project is ready for Claude Code setup!"
 echo ""
-read -p "Would you like to customize this project now? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    python3 scripts/project-wizard.py
-    echo ""
-    echo "✅ Project customized! Ready for Claude Code development."
-else
-    echo "⚠️  You can run the wizard later with:"
-    echo "   python3 scripts/project-wizard.py"
-fi
+echo "This skeleton uses Claude Code for the setup process."
+echo "No manual configuration needed - Claude will guide you through everything!"
 
 # Final instructions
 echo ""
 echo "✅ Setup Complete!"
 echo ""
 echo "Next steps:"
-echo "1. Copy .env.example to .env and update values:"
-echo "   cp .env.example .env"
+echo "1. Start Claude Code:"
+echo "   claude"
 echo ""
-echo "2. Activate the virtual environment:"
-if [[ "$OS" == "windows" ]]; then
-    echo "   cd src && venv\\Scripts\\activate"
-else
-    echo "   cd src && source venv/bin/activate"
-fi
+echo "2. Say to Claude:"
+echo "   'Please help me set up this project'"
 echo ""
-echo "3. Run the development server:"
-echo "   python app.py"
+echo "Claude will:"
+echo " • Set up your development environment"
+echo " • Learn about your project through conversation"
+echo " • Create all necessary documentation"
+echo " • Help you build your first features"
 echo ""
-echo "4. Open http://localhost:5000 in your browser"
+echo "📖 For more details, see docs/SETUP_CHECKLIST.md"
 echo ""
-echo "Happy coding! 🎉"
+echo "Happy building! 🎉"

@@ -17,9 +17,9 @@ This skeleton solves the **"blank page problem"** for web development. Instead o
 
 ## Features
 
-- ✅ **Interactive Setup Wizard** - Customizes project files based on your requirements
+- ✅ **Claude Code Setup** - Conversational project configuration with AI guidance
 - ✅ **Minimal Structure** - No unnecessary complexity or bloat
-- ✅ **AI-Optimized** - Generates perfect first prompts for Claude Code
+- ✅ **Context Engineering** - Advanced research and documentation system
 - ✅ **Auto-Dependencies** - Checks and installs missing tools automatically
 - ✅ **GitHub Integration** - Automatic repository creation and setup
 - ✅ **Production-Ready** - Security-first conventions and best practices
@@ -29,8 +29,8 @@ This skeleton solves the **"blank page problem"** for web development. Instead o
 
 1. **Clone or copy the skeleton:**
    ```bash
-   # From GitHub (once published):
-   git clone https://github.com/lilGHSTY/project-skeleton.git my-new-project
+   # From GitHub:
+   git clone https://github.com/yourusername/project-skeleton.git my-new-project
    cd my-new-project
    
    # Or copy locally:
@@ -38,42 +38,32 @@ This skeleton solves the **"blank page problem"** for web development. Instead o
    cd my-new-project/
    ```
 
-2. **Run the setup script:**
+2. **Run the bootstrap script:**
    ```bash
-   ./scripts/setup.sh
+   ./scripts/bootstrap.sh
    ```
    This will:
    - Check and install dependencies
    - Set up Git and GitHub
-   - Run the project customization wizard
-   - Generate your first Claude prompt
+   - Prepare environment for Claude Code
 
-3. **Start developing with Claude Code:**
+3. **Start setup with Claude Code:**
    ```bash
    claude
-   # Paste the generated prompt from first-prompt.txt
+   # Say: "Please help me set up this project"
    ```
 
 ## Example: What You Get
 
-After running the wizard, instead of a generic template, you get:
+After setup conversation with Claude Code, you get:
 
-- **Customized REQUIREMENTS.md** with your specific project needs
-- **AI-optimized CLAUDE.md** with your design preferences and business context  
-- **Tailored first prompt** like this:
+- **Customized REQUIREMENTS.md** based on your project description
+- **Technical decisions** documented in `.claude/DECISIONS.md`
+- **Style guide** reflecting your design preferences
+- **Research context** for your chosen technologies
+- **Development environment** ready to go
 
-```
-Read CLAUDE.md and docs/REQUIREMENTS.md to understand the [YourProject] project.
-
-I need you to create a professional landing page with:
-- Corporate visual style with primary color: #007bff
-- Focus on [your target audience]
-- Goal: [your specific business goal]
-
-Start with a wireframe layout so I can review before implementation.
-```
-
-**Result**: Claude Code has perfect context to build exactly what you need!
+**Result**: Claude Code understands your project and is ready to build exactly what you need!
 
 ## Directory Structure
 
@@ -83,11 +73,20 @@ Start with a wireframe layout so I can review before implementation.
 │   ├── CONVENTIONS.md     # Development standards
 │   ├── DECISIONS.md       # Technical choices log
 │   ├── RESEARCH.md        # Research methodology
+│   ├── SETUP_GUIDE.md     # Claude setup instructions
 │   ├── HOOKS_GUIDE.md     # Hook system documentation
-│   └── hooks.json         # Automated development hooks
+│   ├── hooks.json         # Automated development hooks
+│   └── commands/          # Slash commands for Claude
+│       ├── research.md    # Research mode command
+│       ├── setup-project.md # Setup mode command
+│       └── validate-setup.md # Validation command
 ├── docs/                  # Project documentation
-│   ├── REQUIREMENTS.md    # What we're building (auto-generated)
+│   ├── REQUIREMENTS.md    # What we're building 
 │   ├── ARCHITECTURE.md    # System design
+│   ├── STYLE_GUIDE.md     # UI/UX standards
+│   ├── API_REFERENCE.md   # API documentation
+│   ├── TESTING_STRATEGY.md # QA approach
+│   ├── SETUP_CHECKLIST.md # User setup guide
 │   └── PROGRESS.md        # Development log
 ├── research/              # Research findings
 ├── src/                   # Source code
@@ -96,8 +95,7 @@ Start with a wireframe layout so I can review before implementation.
 │   └── app.py            # Main application (created by setup)
 ├── tests/                 # Test files
 ├── scripts/               # Setup and utility scripts
-│   ├── setup.sh          # Complete environment setup
-│   ├── project-wizard.py # Interactive customization wizard
+│   ├── bootstrap.sh      # Complete environment setup
 │   └── validate-skeleton.sh # Skeleton validation
 ├── config/                # Configuration files
 ├── CLAUDE.md             # AI assistant instructions
