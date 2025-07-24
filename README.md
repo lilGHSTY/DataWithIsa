@@ -10,7 +10,7 @@
 
 This skeleton solves the **"blank page problem"** for web development. Instead of starting from scratch every time, you get:
 
-- **Smart Setup Wizard** that customizes everything for your specific project
+- **Conversational Setup** with Claude Code that learns your specific needs
 - **AI-Optimized Documentation** that gives Claude Code perfect context
 - **Production-Ready Conventions** without overwhelming complexity
 - **One-Command Setup** that handles dependencies, Git, and GitHub automatically
@@ -187,7 +187,7 @@ Without forcing you into:
 Found a bug or have an improvement? Please open an issue or pull request!
 
 Common improvements:
-- Additional project types in the wizard
+- Additional project type templates
 - More design style options  
 - Better default configurations
 - Documentation improvements

@@ -20,6 +20,16 @@ This is a web application project using:
 - Database: SQLite (development) → PostgreSQL (production)
 - Hosting: Local → Digital Ocean (when ready)
 
+## IMPORTANT: Technology Stack Rules
+**DO NOT change the core stack without explicit user approval:**
+- ❌ NO React/Vue/Angular unless user specifically requests
+- ❌ NO Django/FastAPI - stick with Flask
+- ❌ NO MongoDB/Firebase - use SQLite/PostgreSQL
+- ❌ NO complex build tools - vanilla JS only
+- ✅ You MAY add Flask extensions (Flask-Login, Flask-SQLAlchemy, etc.)
+- ✅ You MAY add necessary libraries (Stripe, SendGrid, etc.)
+- ✅ You MAY use modern CSS (Grid, Flexbox, CSS Variables)
+
 ## Your Primary Responsibilities
 1. **Research First**: Always research thoroughly before implementing
 2. **Ask for Decisions**: If something isn't in DECISIONS.md, ask the user

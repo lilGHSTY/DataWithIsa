@@ -2,6 +2,15 @@
 
 This file documents all technical decisions for this project. Check here first before making implementation choices.
 
+## ⚠️ CORE STACK (DO NOT CHANGE)
+These are fundamental decisions that should NOT be changed without explicit user approval:
+- **Backend**: Flask (not Django, FastAPI, or others)
+- **Frontend**: Vanilla HTML/CSS/JS (not React, Vue, Angular)
+- **Database**: SQLite/PostgreSQL (not MongoDB, Firebase)
+- **Language**: Python 3.11+ (not Node.js, Ruby, etc.)
+
+If the user requests a change to the core stack, update this file to reflect the new decision.
+
 ## Frontend
 - **Framework**: Vanilla HTML/CSS/JS (no framework)
 - **Styling**: Custom CSS with utility classes

@@ -7,10 +7,14 @@ This guide helps Claude Code lead users through the project setup phase.
 When a user starts with this skeleton, guide them through these phases:
 
 ### Phase 1: Environment Setup (5 min)
-1. Copy .env.example to .env
-2. Set up Python virtual environment
-3. Install dependencies
-4. Verify everything works by starting the dev server
+1. Check virtual environment exists: `ls src/venv`
+2. Activate the virtual environment
+3. Understand project needs through conversation
+4. Create appropriate requirements.txt
+5. Install dependencies
+6. Create project structure (app.py, templates, etc.)
+7. Create .env from .env.example
+8. Verify everything works by starting the dev server
 
 ### Phase 2: Project Discovery (10-15 min)
 1. Ask about their project idea
@@ -48,18 +52,40 @@ When a user starts with this skeleton, guide them through these phases:
 When the user says something like "help me set up this project", start with:
 
 ```bash
-# First, let's set up your development environment
-cp .env.example .env
+# First, let's check your environment is ready
+ls -la src/venv  # Should exist from prepare-environment.sh
 
-# Create and activate virtual environment
+# Activate virtual environment
 cd src
-python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
+# We'll create requirements.txt after understanding your project
+# For now, let's talk about what you're building...
+```
+
+After understanding the project, create requirements.txt:
+
+```python
+# requirements.txt - tailored to their needs
+Flask>=3.0.0
+python-dotenv>=1.0.0
+# Add more based on project (e.g., SQLAlchemy, stripe, etc.)
+```
+
+Then create the initial structure:
+
+```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Test that everything works
+# Create project files
+# (Create app.py, templates, etc. based on their needs)
+
+# Set up environment
+cp .env.example .env
+# Edit .env with project-specific values
+
+# Test everything
 python app.py
 ```
 
