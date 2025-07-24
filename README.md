@@ -30,7 +30,7 @@ This skeleton solves the **"blank page problem"** for web development. Instead o
 1. **Clone or copy the skeleton:**
    ```bash
    # From GitHub:
-   git clone https://github.com/yourusername/project-skeleton.git my-new-project
+   git clone https://github.com/lilGHSTY/project-skeleton.git my-new-project
    cd my-new-project
    
    # Or copy locally:
