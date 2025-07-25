@@ -9,7 +9,7 @@
 ## What This Is
 
 A thoughtfully designed starting point for web projects that:
-- ✅ Guides you through proper project setup (no more blank page!)
+- ✅ Guides you through proper project setup
 - ✅ Works perfectly with Claude Code as your AI assistant
 - ✅ Uses simple, traditional web development (no complex frameworks)
 - ✅ Grows with your project (start simple, enhance as needed)
