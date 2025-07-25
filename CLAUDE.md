@@ -2,16 +2,27 @@
 
 Welcome Claude Code! This file contains project-specific instructions for working on this codebase.
 
+## CRITICAL: Check Current Phase First
+
+**Check for lock files in `.claude/modes/` to determine behavior:**
+- If `SETUP.lock` exists → You are in SETUP PHASE (planning only, no coding)
+- If `RESEARCH.lock` exists → You are in RESEARCH MODE (gathering documentation)
+- If no locks exist → You are in DEVELOPMENT PHASE (normal coding)
+
+**IMPORTANT: All phases are user-controlled via slash commands. Never create lock files automatically.**
+
 ## Quick Start
 
 ### For New Projects:
-If this is a fresh skeleton, read `.claude/SETUP_GUIDE.md` and help the user through setup.
+1. Check `.claude/modes/` for any active locks
+2. If no locks exist, suggest user run `/setup start` to begin proper project discovery
+3. If locks exist, follow the appropriate phase behavior
 
 ### For Existing Projects:
-1. Read `.claude/CONVENTIONS.md` for development standards
-2. Check `.claude/DECISIONS.md` for technical choices
-3. Review `docs/REQUIREMENTS.md` for what we're building
-4. Follow `.claude/RESEARCH.md` methodology before implementing
+1. Check `.claude/modes/` for any active locks
+2. Read `.claude/CONVENTIONS.md` for development standards
+3. Check `.claude/DECISIONS.md` for technical choices
+4. Review `docs/REQUIREMENTS.md` for what we're building
 
 ## Project Overview
 This is a web application project using:
@@ -30,9 +41,35 @@ This is a web application project using:
 - ✅ You MAY add necessary libraries (Stripe, SendGrid, etc.)
 - ✅ You MAY use modern CSS (Grid, Flexbox, CSS Variables)
 
+## Phase-Specific Behavior
+
+### SETUP PHASE (SETUP.lock exists)
+- Entered by user with `/setup start` command
+- Ask discovery questions about the project
+- Create and fill documentation templates
+- Discuss technical decisions
+- Plan architecture and features
+- DO NOT write implementation code
+- DO NOT create actual feature files
+- Exit only when user runs: `/setup complete`
+
+### RESEARCH MODE (RESEARCH.lock exists)
+- Entered by user with `/research [topic]` command
+- Gather official documentation
+- Find best practices and patterns
+- Store findings in research/ folder
+- Prepare implementation context
+- Exit automatically when research completes
+
+### DEVELOPMENT PHASE (no locks)
+- Normal coding and implementation
+- Write features and fix bugs
+- Run tests and debug
+- Update documentation as needed
+
 ## Your Primary Responsibilities
-1. **Research First**: Always research thoroughly before implementing
-2. **Ask for Decisions**: If something isn't in DECISIONS.md, ask the user
+1. **Check Phase First**: Always check `.claude/modes/` before starting
+2. **Research Before Implementing**: Use `/research` for new features
 3. **Write Production Code**: No placeholders or mock data
 4. **Maintain Documentation**: Update docs as you work
 5. **Security Focus**: Validate inputs, prevent injections, use HTTPS
@@ -53,6 +90,14 @@ When starting a session:
 - Check for any new requirements in docs/
 - Review recent commits for context
 - Update this checklist as you complete tasks
+
+## Slash Commands
+
+Users can control your behavior with these commands:
+- `/setup start` - Enter setup phase for project discovery
+- `/setup complete` - Exit setup and begin development
+- `/research [topic]` - Research technologies before implementing
+- `/context verify` - Show loaded documentation and context
 
 ## Common Tasks
 

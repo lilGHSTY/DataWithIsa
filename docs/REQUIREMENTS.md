@@ -1,5 +1,7 @@
 # Project Requirements
 
+*This file will be filled out during the setup phase with Claude Code*
+
 ## Overview
 [Describe what you're building in 1-2 sentences]
 

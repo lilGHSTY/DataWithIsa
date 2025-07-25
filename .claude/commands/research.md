@@ -1,50 +1,114 @@
-# Research Command
+# /research Command
 
-You are now in research mode. Your goal is to gather comprehensive documentation and context about the technologies mentioned by the user.
+Activates research mode for comprehensive documentation gathering.
 
-## Research Process
+## Usage
 
-1. **Identify Technologies**: Extract all technologies, frameworks, and tools mentioned
-2. **Parallel Research**: Research each technology simultaneously using WebFetch
-3. **Official Sources First**: Prioritize official documentation, GitHub repos, and authoritative sources
-4. **Structured Storage**: Organize findings in the research/ directory by technology
-5. **Context Extraction**: Focus on:
-   - Getting started guides
-   - Best practices
-   - Common patterns
-   - Integration examples
-   - Recent updates/changes
-
-## Research Targets
-
-For each technology, gather:
-- **Official Documentation**: Main docs site
-- **GitHub Repository**: Source code and examples
-- **Package Repository**: NPM/PyPI/etc for version info
-- **Community Resources**: Stack Overflow, Reddit discussions
-- **Tutorials**: Step-by-step guides
-- **Best Practices**: Industry standards
-
-## Organization
-
-Store findings in:
 ```
-research/
-├── [technology-name]/
-│   ├── docs.md          # Official documentation links
-│   ├── examples.md      # Code examples and patterns
-│   ├── best-practices.md # Industry recommendations
-│   └── recent-updates.md # Latest changes and news
-└── logs/
-    └── research-log.md  # Timestamped research activities
+/research [topic]
 ```
 
-## Output Format
+## Examples
+- `/research flask user authentication`
+- `/research stripe python integration`
+- `/research responsive css grid`
+- `/research postgresql flask sqlalchemy`
 
-After research, provide:
-1. **Summary**: What was researched and key findings
-2. **Recommendations**: Suggested approaches based on research
-3. **Next Steps**: What to research next or implement
-4. **Saved Locations**: Where files were stored for future reference
+## Actions
 
-Start your research now. Ask the user what technologies they want to research, or begin researching based on their project context.
+1. **Create Lock File**
+   - Create `.claude/modes/RESEARCH.lock` with content:
+     ```
+     # RESEARCH MODE ACTIVE
+     # Topic: [user topic]
+     # Created by /research at [timestamp]
+     ```
+   - Enter research mode
+
+2. **Multi-Agent Research** (inspired by context engineering)
+   - Search for official documentation
+   - Find llm.txt files if available
+   - Gather best practices
+   - Analyze security considerations
+   - Review common patterns
+
+3. **Store Context**
+   ```
+   research/
+   ├── [timestamp]_[topic]/
+   │   ├── summary.md
+   │   ├── official_docs.md
+   │   ├── patterns.md
+   │   ├── security.md
+   │   └── implementation_guide.md
+   ```
+
+4. **Clean Up**
+   - Remove `.claude/modes/RESEARCH.lock`
+   - Summarize findings
+   - Confirm context is loaded
+
+## Research Strategy
+
+### Phase 1: Discovery
+- Official documentation sites
+- GitHub repositories
+- Framework guides
+- API references
+
+### Phase 2: Analysis
+- Common patterns
+- Best practices
+- Performance tips
+- Security guidelines
+
+### Phase 3: Synthesis
+- Create implementation guide
+- Note important warnings
+- Prepare code templates
+- Document decision points
+
+## Context Usage
+
+After research, Claude Code will:
+- Reference stored documentation
+- Use official patterns
+- Apply security best practices
+- Implement proper error handling
+
+## Example Flow
+
+```
+User: /research flask-login user authentication
+
+CC: Researching Flask-Login authentication...
+
+[Creates RESEARCH.lock]
+[Searches multiple sources]
+[Stores in research/20240125_flask-login/]
+
+Found comprehensive documentation:
+- Official Flask-Login docs
+- Secure password hashing with Werkzeug
+- Session management best practices
+- Common patterns for user models
+
+Context stored and loaded. Ready to implement authentication!
+
+[Removes RESEARCH.lock]
+```
+
+## Best Practices
+
+1. **Be Specific**: "flask authentication" > "authentication"
+2. **Research Before Building**: Gather context for unfamiliar features
+3. **Chain Research**: Can research multiple related topics
+4. **Verify Context**: Use `/context verify` to check loaded docs
+
+## Auto-Triggers
+
+Research may auto-trigger when:
+- Implementing new features
+- Using unfamiliar libraries
+- Security-sensitive operations
+- Performance optimizations

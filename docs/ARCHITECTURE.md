@@ -1,5 +1,7 @@
 # System Architecture
 
+*This file will be filled out during the setup phase with Claude Code*
+
 ## Overview
 [High-level description of the system architecture]
 
