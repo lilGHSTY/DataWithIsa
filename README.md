@@ -6,19 +6,18 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-green.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-red.svg)](https://flask.palletsprojects.com)
 
-## What This Is
+## Problems This Solves
 
-A thoughtfully designed starting point for web projects that:
-- ✅ Guides you through proper project setup (no more blank page!)
-- ✅ Works perfectly with Claude Code as your AI assistant
-- ✅ Uses simple, traditional web development (no complex frameworks)
-- ✅ Grows with your project (start simple, enhance as needed)
+- ❌ **"Where do I start?"** → Guided setup phase with Claude Code
+- ❌ **"AI doesn't understand my project"** → Comprehensive context system
+- ❌ **"Too complex for beginners"** → Simple, traditional web development
+- ❌ **"Projects grow into a mess"** → Clear conventions from day one
 
 ## Perfect For
 
 - 🚀 Building your first web application
-- 💡 Prototyping ideas quickly
-- 🏢 Starting a professional project the right way
+- 💡 Prototyping ideas quickly  
+- 🏢 Starting a professional project
 - 🤖 Learning AI-assisted development
 
 ## Key Features
@@ -81,10 +80,9 @@ After setup conversation with Claude Code, you get:
 ```
 your-project/
 ├── USER_GUIDE/           # 📚 Start here! All user documentation
-│   ├── 01-GETTING_STARTED.md
-│   ├── 02-USING_CLAUDE_CODE.md
-│   ├── 03-PROJECT_PHASES.md
-│   └── 04-TROUBLESHOOTING.md
+│   ├── 01-USING_CLAUDE_CODE.md
+│   ├── 02-PROJECT_PHASES.md
+│   └── 03-TROUBLESHOOTING.md
 ├── .claude/              # 🤖 Claude Code configuration
 │   ├── modes/            # Phase lock files
 │   ├── commands/         # Slash command definitions
@@ -133,17 +131,10 @@ The skeleton suggests but doesn't enforce:
 
 You can change any of these - just update DECISIONS.md!
 
-## Why This Approach?
+## What Makes It Different
 
-### Problems It Solves
-- ❌ "Where do I start?" → Guided setup phase
-- ❌ "AI doesn't understand my project" → Comprehensive context
-- ❌ "Too complex for beginners" → Simple, traditional approach
-- ❌ "Grows into a mess" → Clear conventions from day one
-
-### What Makes It Different
 - **No Framework Lock-in**: Use what you need, when you need it
-- **AI-First Design**: Built specifically for Claude Code workflow
+- **AI-First Design**: Built specifically for Claude Code workflow  
 - **Actually Simple**: No webpack, no npm scripts, no complexity
 - **Professional Results**: Production-ready from the start
 
