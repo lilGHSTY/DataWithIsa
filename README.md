@@ -94,7 +94,11 @@ your-project/
 ├── docs/                # 📋 Project documentation
 ├── research/            # 🔍 Technology research
 ├── bootstrap.sh         # 🚀 One-command setup
-└── CLAUDE.md           # 🧠 Claude's instructions
+├── CLAUDE.md           # 🧠 Claude's instructions
+├── README.md           # 📖 This file
+├── .env.example        # 🔧 Environment variables template
+├── .gitignore          # 📁 Git ignore patterns
+└── Makefile            # ⚙️ Development commands
 ```
 
 ## How It Works
@@ -144,20 +148,8 @@ You can change any of these - just update DECISIONS.md!
 2. **Use troubleshooting guide** - Common issues solved
 3. **Ask Claude Code** - It knows this system inside out
 
-## Contributing
+## License & Contributing
 
-Found a bug or have an improvement? Please open an issue or pull request!
+**Public Domain** - Use this however you like! Found an issue? [Open one here](https://github.com/lilGHSTY/project-skeleton/issues).
 
-Common improvements:
-- Additional project type templates
-- More design style options  
-- Better default configurations
-- Documentation improvements
-
-## License
-
-This skeleton is released into the public domain. Use it however you like!
-
-## Credits
-
-Created to solve the "blank page problem" for AI-assisted web development. Optimized for [Claude Code](https://claude.ai/code) but works with any AI coding assistant.
+*Created to solve the "blank page problem" for AI-assisted web development.*
