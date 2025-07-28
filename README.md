@@ -59,7 +59,16 @@
    ```bash
    claude
    ```
-   Then run: `/setup start`
+   
+   **First, tell Claude Code to read the project context:**
+   ```
+   Please read CLAUDE.md and follow the Session Startup Checklist before we begin.
+   ```
+   
+   **Then run the setup:**
+   ```
+   /setup start
+   ```
    
    Claude will guide you through project discovery!
 
@@ -67,10 +76,12 @@
 
 After setup conversation with Claude Code, you get:
 
-- **Customized REQUIREMENTS.md** based on your project description
+- **Complete documentation** in `docs/` folder based on professional templates
+- **Customized REQUIREMENTS.md** with your specific project details
 - **Technical decisions** documented in `.claude/DECISIONS.md`
-- **Style guide** reflecting your design preferences
-- **Research context** for your chosen technologies
+- **Brand guidelines** reflecting your design preferences
+- **Security plan** tailored to your needs
+- **Business plan** connecting technical decisions to business goals
 - **Development environment** ready to go
 
 **Result**: Claude Code understands your project and is ready to build exactly what you need!
@@ -91,7 +102,8 @@ your-project/
 │   ├── app.py           # Flask application
 │   ├── templates/       # HTML templates
 │   └── static/          # CSS, JS, images
-├── docs/                # 📋 Project documentation
+├── docs/                # 📋 Project documentation (created during setup)
+├── templates/           # 📝 Documentation templates
 ├── research/            # 🔍 Technology research
 ├── bootstrap.sh         # 🚀 One-command setup
 ├── CLAUDE.md           # 🧠 Claude's instructions

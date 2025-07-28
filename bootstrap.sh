@@ -167,6 +167,12 @@ fi
 echo ""
 echo "✓ All required dependencies found!"
 echo ""
+
+# Ensure project directories exist (most should already exist)
+echo "Checking project directories..."
+mkdir -p src/venv 2>/dev/null || true
+echo "✓ Project directories verified"
+
 echo "Setting up Python environment..."
 
 cd src 2>/dev/null || { echo "Creating src directory..."; mkdir -p src && cd src; }

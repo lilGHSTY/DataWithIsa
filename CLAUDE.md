@@ -2,6 +2,8 @@
 
 Welcome Claude Code! This file contains project-specific instructions for working on this codebase.
 
+**⚠️ IMPORTANT: Before doing anything else, complete the "Session Startup Checklist" below to load all project context.**
+
 ## CRITICAL: Check Current Phase First
 
 **Check for lock files in `.claude/modes/` to determine behavior:**
@@ -53,6 +55,14 @@ This is a web application project using:
 - DO NOT create actual feature files
 - Exit only when user runs: `/setup complete`
 
+**CRITICAL Setup Phase Workflow:**
+1. **CHECK FIRST**: Always use LS to check if directories/files exist
+2. **READ TEMPLATES**: Read all template files in templates/ directory
+3. **COLLABORATE**: Work WITH the user, don't just fill out templates automatically
+4. **COPY & ENHANCE**: Copy templates to docs/ and fill with user-confirmed content
+5. **CONFIRM DECISIONS**: Get explicit approval before making major technical choices
+6. **ITERATIVE**: Present sections for review rather than completing everything at once
+
 ### RESEARCH MODE (RESEARCH.lock exists)
 - Entered by user with `/research [topic]` command
 - Gather official documentation
@@ -84,9 +94,43 @@ This is a web application project using:
 - [ ] Testing
 - [ ] Deployment
 
+## Setup Phase Checklist
+When user runs `/setup start`, complete these in order:
+- [ ] Check `.claude/modes/` and create SETUP.lock
+- [ ] Read ANY existing drafts/ folder contents first
+- [ ] Read ALL template files in templates/ directory
+- [ ] Ask discovery questions about the project
+- [ ] **COLLABORATE**: Present findings and ask for confirmation/improvements
+- [ ] Copy templates to docs/ and fill with agreed-upon content
+- [ ] **COLLABORATE**: Review each major section before finalizing
+- [ ] Create .claude/DECISIONS.md with technology choices (confirm with user)
+- [ ] Create .claude/CONVENTIONS.md with coding standards
+- [ ] Create docs/PROGRESS.md with roadmap and milestones
+- [ ] **COLLABORATE**: Get user approval on timeline and priorities
+- [ ] Append project-specific notes to this CLAUDE.md file
+- [ ] Create migrations/schema.sql with exact database schema
+- [ ] Document specific widget/component types needed
+
+## CRITICAL: Session Startup Checklist
+**BEFORE doing ANYTHING else in any session, complete these steps:**
+
+1. **Check Phase**: `LS .claude/modes/` to see if any phase locks exist
+2. **Read Core Context** (in this exact order):
+   - Read this CLAUDE.md file completely
+   - Read .claude/DECISIONS.md (if exists)
+   - Read .claude/CONVENTIONS.md (if exists)
+3. **Read Project Documentation**:
+   - Read docs/REQUIREMENTS.md (if exists) 
+   - Read docs/ARCHITECTURE.md (if exists)
+   - Read docs/PROGRESS.md (if exists)
+4. **Check File Structure**: `LS` the project root to understand what exists
+5. **Only then**: Begin responding to user request
+
+**This ensures you have full context before making any decisions or suggestions.**
+
 ## Important Context Commands
 When starting a session:
-- Run the setup script if environment isn't ready
+- ALWAYS follow the Session Startup Checklist above
 - Check for any new requirements in docs/
 - Review recent commits for context
 - Update this checklist as you complete tasks

@@ -30,6 +30,12 @@ Control Claude Code's behavior with these commands:
 
 ## Common Workflows
 
+**Starting any session:**
+```
+"Please read CLAUDE.md and follow the Session Startup Checklist before we begin."
+[This ensures CC loads all project context first]
+```
+
 **New Feature:**
 ```
 /research user authentication flask
