@@ -121,4 +121,6 @@ ngrok
 *.zip
 
 # Project Specific
-# Add any project-specific ignores below
+# Add any project-specific ignores below# Ignore setup conversations
+*Setup Convo*.md
+00*.md
