@@ -4,7 +4,7 @@ This document describes the API endpoints for this application.
 
 ## Base URL
 ```
-Development: http://localhost:5000/api
+Development: http://localhost:PORT/api (PORT auto-selected during setup)
 Production: https://yourdomain.com/api
 ```
 

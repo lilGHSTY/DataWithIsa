@@ -304,6 +304,7 @@ if [ ! -f "src/app.py" ]; then
     cat > src/app.py << EOF
 from flask import Flask, render_template
 from dotenv import load_dotenv
+from port_utils import get_project_port_from_env
 import os
 
 # Load environment variables
@@ -318,9 +319,16 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # Get project-specific port (from .env or auto-selected)
+    port = get_project_port_from_env()
+    project_name = os.path.basename(os.getcwd())
+    
+    print(f"Starting {project_name} on http://localhost:{port}")
+    print(f"Press CTRL+C to quit")
+    
+    app.run(debug=True, host='0.0.0.0', port=port)
 EOF
-    echo "✓ Created app.py"
+    echo "✓ Created app.py with intelligent port selection"
 fi
 
 # Create basic templates

@@ -1,4 +1,4 @@
-# Project Template
+# Web Starter Kit
 
 > Everything you need to create a simple, beautiful, and professional website. Nothing more. Nothing less.
 
@@ -42,9 +42,9 @@
 
 ## Quick Start (3 Steps)
 
-1. **Get the template:**
+1. **Get the starter kit:**
    ```bash
-   git clone https://github.com/lilGHSTY/project-template.git my-project
+   git clone https://github.com/lilGHSTY/web-starter-kit.git my-project
    cd my-project
    ```
 
@@ -95,7 +95,7 @@ After **collaborative** setup conversation with Claude Code, you get:
 - **Custom slash commands** for your project workflow
 
 ### 🚀 Working Application
-- **Localhost:5000** loads your project homepage immediately
+- **Localhost:PORT** loads your project homepage immediately (port auto-selected per project)
 - **Interactive features** work out of the box
 - **Professional appearance** matches your brand guidelines
 - **Developer-ready** environment with all dependencies installed
@@ -176,7 +176,7 @@ Enhance only when needed!
 
 ## Default Stack
 
-The template suggests but doesn't enforce:
+The starter kit suggests but doesn't enforce:
 - **Frontend**: Vanilla HTML/CSS/JavaScript
 - **Backend**: Python Flask (minimal)
 - **Database**: SQLite → PostgreSQL
@@ -194,7 +194,8 @@ You can change any of these - just update DECISIONS.md!
 - **No Framework Lock-in**: Use what you need, when you need it
 - **AI-First Design**: Built specifically for Claude Code workflow  
 - **Actually Simple**: No webpack, no npm scripts, no complexity
-- **Immediate Results**: See your project running on localhost:5000 after setup
+- **Smart Port Selection**: Each project gets its own consistent port to prevent conflicts
+- **Immediate Results**: See your project running on localhost:PORT after setup
 
 ## Need Help?
 
@@ -204,6 +205,6 @@ You can change any of these - just update DECISIONS.md!
 
 ## License & Contributing
 
-**Public Domain** - Use this however you like! Found an issue? [Open one here](https://github.com/lilGHSTY/project-template/issues).
+**Public Domain** - Use this however you like! Found an issue? [Open one here](https://github.com/lilGHSTY/web-starter-kit/issues).
 
 *Created to solve the "blank page problem" for AI-assisted web development.*

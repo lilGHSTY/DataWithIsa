@@ -99,7 +99,8 @@ When user runs `/setup start`, complete these in order:
 
 ### ENVIRONMENT SETUP (CRITICAL - Do First)
 - [ ] **INSTALL DEPENDENCIES**: Activate venv and install latest versions from requirements.txt
-- [ ] **VERIFY FLASK WORKS**: Test that `python app.py` starts successfully  
+- [ ] **SELECT PROJECT PORT**: Run `python src/port_utils.py` to see auto-selected port, then update .env
+- [ ] **VERIFY FLASK WORKS**: Test that `python app.py` starts successfully on the selected port
 - [ ] **INSTALL PLAYWRIGHT MCP**: Run `claude mcp add playwright -- npx @playwright/mcp@latest`
 - [ ] **TEST MCP**: Verify Playwright tools are available after restart
 
@@ -119,7 +120,7 @@ When user runs `/setup start`, complete these in order:
 - [ ] **REWRITE README.md**: Replace template content with project-specific README
 
 ### FINAL VERIFICATION
-- [ ] **TEST SERVER**: Verify localhost:5000 loads correctly
+- [ ] **TEST SERVER**: Verify localhost:PORT loads correctly (using selected port from .env)
 - [ ] **TEST PLAYWRIGHT**: Take screenshot of working site if MCP available
 - [ ] **COMMIT CHANGES**: Create initial commit with all setup work
 - [ ] Document specific widget/component types needed
@@ -164,8 +165,20 @@ cd src
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+
+# Check what port will be used
+python port_utils.py
+
+# Start the server (will use port from .env or auto-select)
 python app.py
 ```
+
+### Port Selection System
+Each project gets its own consistent port to prevent conflicts:
+- Hash-based selection from project name ensures consistency
+- Port availability is verified before use
+- Falls back to next available port if needed
+- Environment variable `.env` PORT takes precedence if set
 
 ### Adding a New Feature
 1. Research the requirement thoroughly
@@ -238,7 +251,25 @@ python app.py
 ### Flask Won't Start
 1. Check for syntax errors in app.py
 2. Verify all imports are available
-3. Check port 5000 isn't already in use: `lsof -i :5000`
+3. Check if selected port is in use: `lsof -i :[PORT]`
+4. Port conflicts resolved automatically by port_utils.py
+
+### Port Selection Process
+During setup phase:
+1. **Determine project name** from directory or user input
+2. **Generate consistent port** using project name hash (range 5000-5999)
+3. **Test port availability** on the system
+4. **Find alternative if needed** (increment hash until available port found)
+5. **Update .env file** with selected port
+6. **Test Flask startup** on chosen port
+7. **Document in README** the project's specific port
+
+Example port selection:
+```python
+# Project "DataWithIsa" → hash → port 5247
+# Project "my-blog" → hash → port 5432
+# Always consistent for same project name
+```
 
 ## Documentation Standards for Setup Phase
 
@@ -258,7 +289,7 @@ python app.py
 ## Setup Success Validation
 
 A successful setup phase should result in:
-- [ ] **Working Application**: localhost:5000 loads project homepage  
+- [ ] **Working Application**: localhost:PORT loads project homepage (using auto-selected port)
 - [ ] **Interactive Features**: Forms, calculators, navigation work
 - [ ] **Professional Documentation**: All docs project-specific, no templates
 - [ ] **Development Ready**: Other developers can clone and run immediately
@@ -270,7 +301,7 @@ Before running `/setup complete`, verify:
 
 - [ ] **Dependencies Installed**: `pip list` shows all required packages
 - [ ] **Flask Starts**: `python app.py` runs without errors
-- [ ] **Localhost Responds**: `curl http://localhost:5000` returns 200
+- [ ] **Localhost Responds**: `curl http://localhost:PORT` returns 200 (check .env for PORT)
 - [ ] **Playwright Available**: Can take screenshot of localhost (if MCP installed)
 - [ ] **README Updated**: No template content remains
 - [ ] **Git Status Clean**: All changes committed

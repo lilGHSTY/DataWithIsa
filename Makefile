@@ -64,7 +64,8 @@ install:
 
 test-server:
 	@echo "Testing server response..."
-	@curl -s http://localhost:5000 | head -5 || echo "Server not responding - make sure 'make run' is running in another terminal"
+	@PORT=$$(grep "^PORT=" .env 2>/dev/null | cut -d= -f2 || python src/port_utils.py | grep "Selected port" | cut -d' ' -f3) && \
+	curl -s http://localhost:$$PORT | head -5 || echo "Server not responding - make sure 'make run' is running in another terminal"
 
 test-playwright:
 	@echo "Testing Playwright MCP..."
