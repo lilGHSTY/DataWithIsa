@@ -1,6 +1,14 @@
-# Project Requirements
+# [PROJECT NAME] - Requirements
 
-*This file will be filled out during the setup phase with Claude Code*
+*This file was created during setup phase with Claude Code based on user input*
+
+## Instructions for Claude Code
+When filling this template:
+1. Replace ALL placeholder content with specific user requirements
+2. Use actual user-provided information, not generic examples
+3. Confirm all decisions with user before finalizing
+4. Ensure consistency across all documentation files
+5. Remove these instructions when complete
 
 ## Overview
 [Describe what you're building in 1-2 sentences]

@@ -1,0 +1,11 @@
+# Core Flask Dependencies Reference
+# Use this as a reference for minimal working Flask setup
+# Claude Code will install actual versions in requirements.txt during setup
+
+Flask>=2.3.0,<3.0.0
+python-dotenv>=1.0.0
+Werkzeug>=2.3.0,<3.0.0
+
+# Development tools
+autopep8>=2.0.0
+pylint>=2.15.0

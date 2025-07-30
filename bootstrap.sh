@@ -197,7 +197,10 @@ fi
 if [ ! -f "requirements.txt" ]; then
     echo "Creating requirements.txt..."
     cat > requirements.txt << EOF
-# Core dependencies (Claude will add versions during setup)
+# Core Flask Dependencies - INSTALLED BY CLAUDE DURING SETUP
+# Claude will replace comments with exact versions during setup phase
+
+# Core Flask stack
 Flask
 python-dotenv
 Werkzeug
@@ -206,18 +209,16 @@ Werkzeug
 autopep8
 pylint
 
-# Claude will add project-specific dependencies here:
-# Examples:
-# - SQLAlchemy (for database ORM)
-# - Flask-Login (for authentication)
-# - stripe (for payments)
-# - sendgrid (for emails)
-# - gunicorn (for production)
-# - psycopg2-binary (for PostgreSQL)
+# Project-specific dependencies will be added by Claude based on project needs:
+# Database: SQLAlchemy, Flask-SQLAlchemy
+# Auth: Flask-WTF, Flask-Login
+# APIs: requests
+# Production: gunicorn, psycopg2-binary
+# etc.
 EOF
     echo "✓ Created requirements.txt template"
     echo ""
-    echo "Note: Claude Code will install dependencies with proper versions during setup"
+    echo "Note: Claude Code will install dependencies with exact versions during setup"
 fi
 
 # Create .env template

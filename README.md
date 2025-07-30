@@ -1,4 +1,4 @@
-# Project Skeleton
+# Project Template
 
 > Everything you need to create a simple, beautiful, and professional website. Nothing more. Nothing less.
 
@@ -22,10 +22,11 @@
 
 ## Key Features
 
-### 🎯 Phase-Based Development
-- **Setup Phase**: **Collaborative** project discovery - Claude Code works WITH you to create documentation
-- **Development Phase**: Build features with full context
-- **Research Mode**: Gather official docs before implementing
+### 🎯 Working Application Delivery
+- **Setup Phase**: Delivers a **working Flask application** with professional documentation
+- **Environment Verified**: Dependencies installed, server tested, Playwright MCP ready
+- **Development Ready**: Other developers can clone and run immediately
+- **Research Mode**: Gather official docs before implementing new features
 
 ### 🛠️ Smart Bootstrap
 - One command checks and installs everything
@@ -41,9 +42,9 @@
 
 ## Quick Start (3 Steps)
 
-1. **Get the skeleton:**
+1. **Get the template:**
    ```bash
-   git clone https://github.com/lilGHSTY/project-skeleton.git my-project
+   git clone https://github.com/lilGHSTY/project-template.git my-project
    cd my-project
    ```
 
@@ -93,7 +94,13 @@ After **collaborative** setup conversation with Claude Code, you get:
 - **Development conventions** in `.claude/CONVENTIONS.md`
 - **Custom slash commands** for your project workflow
 
-**Result**: Claude Code has deep understanding of your project goals, technical decisions, and business context!
+### 🚀 Working Application
+- **Localhost:5000** loads your project homepage immediately
+- **Interactive features** work out of the box
+- **Professional appearance** matches your brand guidelines
+- **Developer-ready** environment with all dependencies installed
+
+**Result**: Not just documentation - a **working web application** tailored to your project!
 
 ## What's Inside
 
@@ -127,6 +134,7 @@ your-project/
 ├── research/             # 🔍 Technology research and findings
 ├── tests/                # 🧪 Test files
 ├── bootstrap.sh          # 🚀 One-command setup
+├── requirements-core.txt # 📋 Core dependency reference
 ├── CLAUDE.md            # 🧠 Claude's instructions
 ├── README.md            # 📖 This file
 ├── .env.example         # 🔧 Environment variables template
@@ -136,27 +144,27 @@ your-project/
 
 ## How It Works
 
-### 1. Template-to-Documentation Workflow
+### 1. Working Application Delivery
 ```
-TEMPLATES → COLLABORATIVE SETUP → PROJECT DOCS
+TEMPLATES → COLLABORATIVE SETUP → WORKING APPLICATION
 ```
-1. **Templates exist** in `templates/` directory (never change)
-2. **Setup phase** collaboratively fills templates with your project details
-3. **Documentation created** in `docs/` directory with your specific content
+1. **Professional templates** provide structure
+2. **Setup phase** creates working Flask app with your project details
+3. **Verification steps** ensure everything works before completion
 
 ### 2. Phase-Based Development
 ```
 SETUP → DEVELOPMENT → DEPLOYMENT
 ```
-- `/setup start`: Enter **collaborative** planning mode
-- `/setup complete`: Begin building with full context
+- `/setup start`: Create **working application** with documentation
+- `/setup complete`: Begin building new features
 - `/research [topic]`: Gather official documentation anytime
 
-### 3. Collaborative Setup Process
-- Claude Code **asks questions** about your project
-- **You provide input** and confirm decisions
-- **Together you fill** professional templates
-- **Result**: Complete documentation tailored to your project
+### 3. Quality Verification
+- **Dependencies installed**: All Python packages with exact versions
+- **Server tested**: Flask application starts and responds
+- **MCP ready**: Playwright installed for testing
+- **Git committed**: All setup work properly version controlled
 
 ### 4. Progressive Enhancement
 Start with:
@@ -168,7 +176,7 @@ Enhance only when needed!
 
 ## Default Stack
 
-The skeleton suggests but doesn't enforce:
+The template suggests but doesn't enforce:
 - **Frontend**: Vanilla HTML/CSS/JavaScript
 - **Backend**: Python Flask (minimal)
 - **Database**: SQLite → PostgreSQL
@@ -178,13 +186,15 @@ You can change any of these - just update DECISIONS.md!
 
 ## What Makes It Different
 
-- **Template-Based Documentation**: 9 professional templates create comprehensive project docs
+- **Working Application**: Setup delivers a functional Flask app, not just documents
+- **Quality Verified**: Dependencies, server, and testing tools all confirmed working
+- **Professional Templates**: 9 business-ready documentation templates
 - **Collaborative Setup**: Claude Code works WITH you, not FOR you
 - **Complete Context**: Every file tells Claude Code exactly what your project needs
 - **No Framework Lock-in**: Use what you need, when you need it
 - **AI-First Design**: Built specifically for Claude Code workflow  
 - **Actually Simple**: No webpack, no npm scripts, no complexity
-- **Professional Results**: Business-ready documentation from day one
+- **Immediate Results**: See your project running on localhost:5000 after setup
 
 ## Need Help?
 
@@ -194,6 +204,6 @@ You can change any of these - just update DECISIONS.md!
 
 ## License & Contributing
 
-**Public Domain** - Use this however you like! Found an issue? [Open one here](https://github.com/lilGHSTY/project-skeleton/issues).
+**Public Domain** - Use this however you like! Found an issue? [Open one here](https://github.com/lilGHSTY/project-template/issues).
 
 *Created to solve the "blank page problem" for AI-assisted web development.*

@@ -1,6 +1,14 @@
-# Business Plan
+# [PROJECT NAME] - Business Plan
 
-*This template will be filled during setup phase based on your business goals*
+*This file was created during setup phase with Claude Code based on user input*
+
+## Instructions for Claude Code
+When filling this template:
+1. Replace ALL placeholder content with actual business information
+2. Use specific market research and financial projections provided by user
+3. Connect technical decisions to business goals
+4. Confirm business assumptions with user before finalizing
+5. Remove these instructions when complete
 
 ## Executive Summary
 [Brief overview of the business and what this application enables]

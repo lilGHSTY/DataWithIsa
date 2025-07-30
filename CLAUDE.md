@@ -96,19 +96,32 @@ This is a web application project using:
 
 ## Setup Phase Checklist
 When user runs `/setup start`, complete these in order:
+
+### ENVIRONMENT SETUP (CRITICAL - Do First)
+- [ ] **INSTALL DEPENDENCIES**: Activate venv and install latest versions from requirements.txt
+- [ ] **VERIFY FLASK WORKS**: Test that `python app.py` starts successfully  
+- [ ] **INSTALL PLAYWRIGHT MCP**: Run `claude mcp add playwright -- npx @playwright/mcp@latest`
+- [ ] **TEST MCP**: Verify Playwright tools are available after restart
+
+### PROJECT DISCOVERY  
 - [ ] Check `.claude/modes/` and create SETUP.lock
 - [ ] Read ANY existing drafts/ folder contents first
 - [ ] Read ALL template files in templates/ directory
 - [ ] Ask discovery questions about the project
 - [ ] **COLLABORATE**: Present findings and ask for confirmation/improvements
+
+### DOCUMENTATION CREATION
 - [ ] Copy templates to docs/ and fill with agreed-upon content
 - [ ] **COLLABORATE**: Review each major section before finalizing
 - [ ] Create .claude/DECISIONS.md with technology choices (confirm with user)
 - [ ] Create .claude/CONVENTIONS.md with coding standards
 - [ ] Create docs/PROGRESS.md with roadmap and milestones
-- [ ] **COLLABORATE**: Get user approval on timeline and priorities
-- [ ] Append project-specific notes to this CLAUDE.md file
-- [ ] Create migrations/schema.sql with exact database schema
+- [ ] **REWRITE README.md**: Replace template content with project-specific README
+
+### FINAL VERIFICATION
+- [ ] **TEST SERVER**: Verify localhost:5000 loads correctly
+- [ ] **TEST PLAYWRIGHT**: Take screenshot of working site if MCP available
+- [ ] **COMMIT CHANGES**: Create initial commit with all setup work
 - [ ] Document specific widget/component types needed
 
 ## CRITICAL: Session Startup Checklist
@@ -179,6 +192,88 @@ python app.py
 2. Check the research/ folder
 3. Ask the user with clear options
 4. Document the solution
+
+## What Claude Code CAN Do (Don't Be Overly Cautious!)
+
+### GitHub Integration
+- ✅ **CREATE REPOS**: `gh repo create project-name --private --source=. --remote=origin --push`
+- ✅ **COMMIT & PUSH**: Full git workflow including commits and pushes
+- ✅ **MANAGE BRANCHES**: Create, switch, merge branches
+
+### MCP Management  
+- ✅ **INSTALL MCPs**: `claude mcp add playwright -- npx @playwright/mcp@latest`
+- ✅ **VERIFY MCPs**: `claude mcp list` to check installation
+- ⚠️ **REQUIRES RESTART**: User must restart Claude Code for new MCPs to work
+
+### Environment Setup
+- ✅ **INSTALL DEPENDENCIES**: Full pip install workflows with virtual environments
+- ✅ **SYSTEM PACKAGES**: Can install system packages with apt/brew when needed
+- ✅ **VERIFY INSTALLATIONS**: Test that installations work correctly
+
+## Linux Distribution Handling
+
+### Pop!_OS Specific Fixes
+- Pop!_OS is Ubuntu-based but not recognized by some tools
+- **Playwright**: Install Google Chrome manually before MCP installation
+- **Package Installation**: Use `sudo apt` commands (works on Pop!_OS)
+
+### Installation Sequence for Pop!_OS
+1. Install Google Chrome: `sudo apt install google-chrome-stable`
+2. Install Playwright MCP: `claude mcp add playwright`
+3. Test functionality: Verify browser launches correctly
+
+## Troubleshooting Common Setup Issues
+
+### Dependencies Won't Install
+1. Check virtual environment is activated: `which python`
+2. Update pip: `pip install --upgrade pip`
+3. Install dependencies one by one to isolate issues
+
+### Playwright MCP Issues  
+1. Linux: Install Google Chrome first: `sudo apt install google-chrome-stable`
+2. Pop!_OS: Use manual Chrome installation before MCP
+3. Restart Claude Code after MCP installation
+4. Verify with: `claude mcp list`
+
+### Flask Won't Start
+1. Check for syntax errors in app.py
+2. Verify all imports are available
+3. Check port 5000 isn't already in use: `lsof -i :5000`
+
+## Documentation Standards for Setup Phase
+
+### README.md Requirements
+- [ ] Project-specific title and description
+- [ ] Accurate technology stack listing
+- [ ] Working installation instructions
+- [ ] Current project status and roadmap
+- [ ] Contact information for project owner
+- [ ] No template placeholders remaining
+
+### Technical Documentation  
+- [ ] REQUIREMENTS.md reflects actual user needs (not generic)
+- [ ] ARCHITECTURE.md shows real technology choices made
+- [ ] PROGRESS.md has realistic timeline and milestones
+
+## Setup Success Validation
+
+A successful setup phase should result in:
+- [ ] **Working Application**: localhost:5000 loads project homepage  
+- [ ] **Interactive Features**: Forms, calculators, navigation work
+- [ ] **Professional Documentation**: All docs project-specific, no templates
+- [ ] **Development Ready**: Other developers can clone and run immediately
+- [ ] **Testing Capable**: Playwright MCP installed and functional
+- [ ] **Version Controlled**: All work committed to appropriate repository
+
+## Pre-Setup-Complete Verification
+Before running `/setup complete`, verify:
+
+- [ ] **Dependencies Installed**: `pip list` shows all required packages
+- [ ] **Flask Starts**: `python app.py` runs without errors
+- [ ] **Localhost Responds**: `curl http://localhost:5000` returns 200
+- [ ] **Playwright Available**: Can take screenshot of localhost (if MCP installed)
+- [ ] **README Updated**: No template content remains
+- [ ] **Git Status Clean**: All changes committed
 
 ## Do NOT
 - Use complex frameworks without user approval

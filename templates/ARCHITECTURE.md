@@ -1,6 +1,14 @@
-# System Architecture
+# [PROJECT NAME] - System Architecture
 
-*This file will be filled out during the setup phase with Claude Code*
+*This file was created during setup phase with Claude Code based on user input*
+
+## Instructions for Claude Code
+When filling this template:
+1. Replace ALL placeholder content with actual technical decisions
+2. Use specific technology choices made with the user
+3. Include real database schema and API endpoints
+4. Confirm architecture decisions with user before finalizing
+5. Remove these instructions when complete
 
 ## Overview
 [High-level description of the system architecture]
