@@ -83,6 +83,8 @@ This is a web application project using:
 3. **Write Production Code**: No placeholders or mock data
 4. **Maintain Documentation**: Update docs as you work
 5. **Security Focus**: Validate inputs, prevent injections, use HTTPS
+6. **Auto-Commit Changes**: Automatically commit and push significant changes to GitHub
+7. **Use GitHub CLI**: Always use `gh` commands instead of web search for GitHub operations
 
 ## Current Project State
 - [ ] Initial setup
@@ -98,10 +100,11 @@ This is a web application project using:
 When user runs `/setup start`, complete these in order:
 
 ### ENVIRONMENT SETUP (CRITICAL - Do First)
-- [ ] **INSTALL DEPENDENCIES**: Activate venv and install latest versions from requirements.txt
-- [ ] **SELECT PROJECT PORT**: Run `python src/port_utils.py` to see auto-selected port, then update .env
-- [ ] **VERIFY FLASK WORKS**: Test that `python app.py` starts successfully on the selected port
-- [ ] **INSTALL PLAYWRIGHT MCP**: Run `claude mcp add playwright -- npx @playwright/mcp@latest`
+- [ ] **INSTALL DEPENDENCIES**: Install latest versions with exact version pinning
+- [ ] **CREATE DOCKER CONFIGURATION**: Set up docker-compose.yml and Dockerfile for development
+- [ ] **SELECT PROJECT PORT**: Use smart port selection system to avoid conflicts
+- [ ] **VERIFY SERVER WORKS**: Test that development server starts successfully
+- [ ] **INSTALL PLAYWRIGHT MCP**: Set up browser automation if needed
 - [ ] **TEST MCP**: Verify Playwright tools are available after restart
 
 ### PROJECT DISCOVERY  
@@ -120,9 +123,11 @@ When user runs `/setup start`, complete these in order:
 - [ ] **REWRITE README.md**: Replace template content with project-specific README
 
 ### FINAL VERIFICATION
-- [ ] **TEST SERVER**: Verify localhost:PORT loads correctly (using selected port from .env)
+- [ ] **TEST DOCKER**: Verify docker-compose up works correctly
+- [ ] **TEST SERVER**: Verify localhost:PORT loads correctly
 - [ ] **TEST PLAYWRIGHT**: Take screenshot of working site if MCP available
 - [ ] **COMMIT CHANGES**: Create initial commit with all setup work
+- [ ] **PUSH TO GITHUB**: Automatically push changes to remote repository
 - [ ] Document specific widget/component types needed
 
 ## CRITICAL: Session Startup Checklist
@@ -160,6 +165,17 @@ Users can control your behavior with these commands:
 ## Common Tasks
 
 ### Starting the Development Server
+
+#### Docker-First Approach (Recommended)
+```bash
+# Start with Docker Compose (preferred method)
+docker-compose up
+
+# Or start in development mode with live reload
+docker-compose up --build
+```
+
+#### Traditional Python Approach (Alternative)
 ```bash
 cd src
 python -m venv venv
@@ -208,19 +224,37 @@ Each project gets its own consistent port to prevent conflicts:
 
 ## What Claude Code CAN Do (Don't Be Overly Cautious!)
 
-### GitHub Integration
+### GitHub Integration - ALWAYS USE GITHUB CLI
+**CRITICAL: NEVER use web search for GitHub repositories. ALWAYS use `gh` commands.**
+
+- ✅ **READ REPOSITORIES**: `gh api repos/user/repo/contents/path/file.md`
+- ✅ **BROWSE STRUCTURE**: `gh repo view user/repo` and `gh api repos/user/repo/contents/`
 - ✅ **CREATE REPOS**: `gh repo create project-name --private --source=. --remote=origin --push`
-- ✅ **COMMIT & PUSH**: Full git workflow including commits and pushes
+- ✅ **COMMIT & PUSH**: Complete git workflow including commits and pushes
 - ✅ **MANAGE BRANCHES**: Create, switch, merge branches
+- ✅ **CLONE WHEN NEEDED**: `gh repo clone user/repo` (only for extensive modifications)
+
+**Standard GitHub Workflow**:
+1. `gh repo view username/repo-name` - Get repository overview
+2. `gh api repos/username/repo-name/contents/` - Browse file structure
+3. `gh api repos/username/repo-name/contents/path/file.md` - Read specific files
+4. Only clone if extensive file modifications are needed
+
+**CRITICAL: Auto-Commit All Changes to GitHub**
+- ✅ **AUTOMATICALLY COMMIT**: After any significant changes or feature completion
+- ✅ **USE DESCRIPTIVE MESSAGES**: Clear commit messages explaining what was done
+- ✅ **PUSH TO REMOTE**: Always push commits to keep GitHub updated
+- ✅ **CREATE INITIAL REPOS**: Proactively offer to create GitHub repos for new projects
 
 ### MCP Management  
-- ✅ **INSTALL MCPs**: `claude mcp add playwright -- npx @playwright/mcp@latest`
-- ✅ **VERIFY MCPs**: `claude mcp list` to check installation
+- ✅ **INSTALL MCPs**: Install necessary MCPs for project functionality including Docker and Playwright
+- ✅ **VERIFY MCPs**: Check installation and functionality
 - ⚠️ **REQUIRES RESTART**: User must restart Claude Code for new MCPs to work
 
 ### Environment Setup
-- ✅ **INSTALL DEPENDENCIES**: Full pip install workflows with virtual environments
-- ✅ **SYSTEM PACKAGES**: Can install system packages with apt/brew when needed
+- ✅ **DOCKER INTEGRATION**: Full Docker setup and container management
+- ✅ **INSTALL DEPENDENCIES**: Complete dependency installation with latest versions
+- ✅ **SYSTEM PACKAGES**: Install system packages when needed
 - ✅ **VERIFY INSTALLATIONS**: Test that installations work correctly
 
 ## Linux Distribution Handling
@@ -299,12 +333,13 @@ A successful setup phase should result in:
 ## Pre-Setup-Complete Verification
 Before running `/setup complete`, verify:
 
-- [ ] **Dependencies Installed**: `pip list` shows all required packages
-- [ ] **Flask Starts**: `python app.py` runs without errors
-- [ ] **Localhost Responds**: `curl http://localhost:PORT` returns 200 (check .env for PORT)
+- [ ] **Docker Works**: `docker-compose up` starts without errors
+- [ ] **Dependencies Installed**: All required packages available in containers
+- [ ] **Server Starts**: Development server runs without errors
+- [ ] **Localhost Responds**: Application loads in browser correctly
 - [ ] **Playwright Available**: Can take screenshot of localhost (if MCP installed)
 - [ ] **README Updated**: No template content remains
-- [ ] **Git Status Clean**: All changes committed
+- [ ] **Git Status Clean**: All changes committed and pushed to GitHub
 
 ## Do NOT
 - Use complex frameworks without user approval

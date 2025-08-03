@@ -1,282 +1,205 @@
 #!/bin/bash
+# Web Starter Kit - Docker-First Bootstrap Script
+# Installs system dependencies and Docker setup only
+# Claude Code handles all Python dependencies during setup phase
 
-# Project Setup Script - Improved Version
-# This script checks all dependencies and can auto-install missing ones
+set -e  # Exit on any error
 
-echo "🚀 Project Setup Script"
-echo "======================"
+echo "🚀 Web Starter Kit - Docker-First Bootstrap"
+echo "============================================"
+echo "Installing system dependencies and Docker setup"
+echo "Claude Code will handle Python packages during setup phase"
+echo ""
 
-# Initialize variables
-ERRORS=0
-WARNINGS=0
-OS=""
-PYTHON_CMD=""
-INSTALL_CMD=""
-MISSING_DEPS=()
+# Color functions
+print_success() { echo -e "\033[32m✅ $1\033[0m"; }
+print_error() { echo -e "\033[31m❌ $1\033[0m"; }
+print_info() { echo -e "\033[34mℹ️  $1\033[0m"; }
+print_warning() { echo -e "\033[33m⚠️  $1\033[0m"; }
 
-# Detect OS and package manager
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    OS="linux"
-    if command -v apt-get &> /dev/null; then
-        INSTALL_CMD="sudo apt-get install -y"
-        DISTRO="debian"
-    elif command -v dnf &> /dev/null; then
-        INSTALL_CMD="sudo dnf install -y"
-        DISTRO="fedora"
-    elif command -v pacman &> /dev/null; then
-        INSTALL_CMD="sudo pacman -S --noconfirm"
-        DISTRO="arch"
+# Detect Linux distribution (focusing on Linux as requested)
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+    print_error "This script is designed for Linux systems only"
+    print_info "For other systems, please install dependencies manually:"
+    print_info "- Docker: https://docs.docker.com/get-docker/"
+    print_info "- Node.js: https://nodejs.org/"
+    print_info "- Git: Available through system package manager"
+    exit 1
+fi
+
+print_success "Linux system detected"
+
+# Check for required system commands
+check_system_deps() {
+    print_info "Checking system dependencies..."
+    
+    local missing_deps=()
+    
+    # Check curl (needed for installations)
+    if ! command -v curl &> /dev/null; then
+        missing_deps+=("curl")
     fi
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-    OS="mac"
-    if command -v brew &> /dev/null; then
-        INSTALL_CMD="brew install"
+    
+    # Check Git
+    if ! command -v git &> /dev/null; then
+        missing_deps+=("git")
+    fi
+    
+    if [ ${#missing_deps[@]} -gt 0 ]; then
+        print_warning "Installing missing system dependencies: ${missing_deps[*]}"
+        sudo apt update
+        sudo apt install -y "${missing_deps[@]}"
+        print_success "System dependencies installed"
     else
-        echo "⚠️  Homebrew not found. Install from https://brew.sh"
-        WARNINGS=$((WARNINGS + 1))
+        print_success "All system dependencies present"
     fi
-elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
-    OS="windows"
-    echo "⚠️  Windows detected. Please install dependencies manually:"
-    echo "   - Python 3.11+: https://www.python.org/downloads/"
-    echo "   - Git: https://git-scm.com/download/win"
-    echo "   - Node.js: https://nodejs.org/"
-else
-    echo "❌ Unsupported OS: $OSTYPE"
-    exit 1
-fi
+}
 
-echo "✓ Detected OS: $OS"
-
-# Check Python (special handling for version)
-echo -n "Checking Python 3.11+... "
-PYTHON_FOUND=false
-for py_cmd in python3.13 python3.12 python3.11 python3 python; do
-    if command -v $py_cmd &> /dev/null; then
-        PYTHON_VERSION=$($py_cmd -c 'import sys; print(".".join(map(str, sys.version_info[:2])))' 2>/dev/null || echo "0.0")
-        if [[ "$PYTHON_VERSION" == "3.11" ]] || [[ "$PYTHON_VERSION" == "3.12" ]] || [[ "$PYTHON_VERSION" == "3.13" ]]; then
-            echo "✓ Found Python $PYTHON_VERSION"
-            PYTHON_CMD="$py_cmd"
-            PYTHON_FOUND=true
-            break
-        fi
+# Install Docker (various methods for reliability)
+install_docker() {
+    print_info "Checking Docker installation..."
+    
+    if command -v docker &> /dev/null; then
+        print_success "Docker already installed: $(docker --version)"
+        return
     fi
-done
-
-if [ "$PYTHON_FOUND" = false ]; then
-    echo "❌ Python 3.11+ required"
-    if [ "$OS" == "linux" ] && [ "$DISTRO" == "debian" ]; then
-        MISSING_DEPS+=("python3.11 python3.11-venv")
-    elif [ "$OS" == "mac" ]; then
-        MISSING_DEPS+=("python@3.11")
-    fi
-    ERRORS=$((ERRORS + 1))
-fi
-
-# Check Git
-echo -n "Checking Git... "
-if command -v git &> /dev/null; then
-    GIT_VERSION=$(git --version)
-    echo "✓ Found $GIT_VERSION"
-else
-    echo "❌ Git not found"
-    MISSING_DEPS+=("git")
-    ERRORS=$((ERRORS + 1))
-fi
-
-# Check SQLite
-echo -n "Checking SQLite3... "
-if command -v sqlite3 &> /dev/null; then
-    SQLITE_VERSION=$(sqlite3 --version | cut -d' ' -f1)
-    echo "✓ Found SQLite $SQLITE_VERSION"
-else
-    echo "❌ SQLite3 not found"
-    MISSING_DEPS+=("sqlite3")
-    ERRORS=$((ERRORS + 1))
-fi
-
-# Check Node.js (optional)
-echo -n "Checking Node.js (optional)... "
-if command -v node &> /dev/null; then
-    NODE_VERSION=$(node -v)
-    echo "✓ Found Node.js $NODE_VERSION"
-else
-    echo "⚠️  Node.js not found"
-    if [ -n "$INSTALL_CMD" ]; then
-        # Note it but don't add to required deps since it's optional
-        echo "   (Can be installed with: $INSTALL_CMD nodejs)"
-    fi
-    WARNINGS=$((WARNINGS + 1))
-fi
-
-# Summary of checks
-echo ""
-echo "======================"
-echo "Check Summary:"
-echo "✓ Checks passed: $((4 - ERRORS - WARNINGS))"
-if [ $ERRORS -gt 0 ]; then
-    echo "❌ Required missing: $ERRORS"
-fi
-if [ $WARNINGS -gt 0 ]; then
-    echo "⚠️  Optional missing: $WARNINGS"
-fi
-
-# Offer to install missing dependencies
-if [ ${#MISSING_DEPS[@]} -gt 0 ] && [ -n "$INSTALL_CMD" ] && [ "$OS" != "windows" ]; then
-    echo ""
-    echo "Missing dependencies: ${MISSING_DEPS[*]}"
-    echo ""
-    read -p "Would you like to install missing dependencies? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "Installing dependencies..."
+    
+    print_info "Installing Docker..."
+    
+    # Method 1: Try snap (most reliable on many Linux distros)
+    if command -v snap &> /dev/null; then
+        print_info "Installing Docker via snap..."
+        sudo snap install docker
+        sudo snap start docker
         
-        # Special handling for Python on Ubuntu/Debian
-        if [[ "$OS" == "linux" ]] && [[ "$DISTRO" == "debian" ]] && [[ " ${MISSING_DEPS[@]} " =~ " python3.11 " ]]; then
-            echo "Adding Python repository..."
-            sudo add-apt-repository ppa:deadsnakes/ppa -y
-            sudo apt-get update
+        # Add user to docker group
+        sudo groupadd docker 2>/dev/null || true
+        sudo usermod -a -G docker $USER
+        
+        print_success "Docker installed via snap"
+    else
+        # Method 2: Official Docker installation
+        print_info "Installing Docker via official script..."
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sudo sh get-docker.sh
+        sudo usermod -a -G docker $USER
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        rm get-docker.sh
+        
+        print_success "Docker installed via official script"
+    fi
+    
+    print_warning "You may need to log out and back in for Docker permissions to take effect"
+}
+
+# Test Docker installation
+test_docker() {
+    print_info "Testing Docker installation..."
+    
+    # Test if Docker daemon is running
+    if ! docker info &> /dev/null; then
+        print_warning "Docker daemon not running, attempting to start..."
+        
+        # Try different methods to start Docker
+        if command -v snap &> /dev/null && snap list docker &> /dev/null; then
+            sudo snap start docker
+        else
+            sudo systemctl start docker
         fi
         
-        # Install all missing dependencies
-        $INSTALL_CMD ${MISSING_DEPS[*]}
-        
-        echo "✓ Dependencies installed. Please run this script again."
-        exit 0
+        sleep 3
     fi
-fi
-
-# Exit if required dependencies are missing
-if [ $ERRORS -gt 0 ]; then
-    echo ""
-    echo "❌ Cannot continue without required dependencies."
-    echo "Please install them manually or re-run with 'y' to auto-install."
-    echo ""
-    echo "Manual installation commands:"
-    if [ "$OS" == "linux" ]; then
-        echo "  Ubuntu/Debian: sudo apt-get install python3.11 python3.11-venv git sqlite3"
-        echo "  Fedora: sudo dnf install python3.11 git sqlite"
-        echo "  Arch: sudo pacman -S python git sqlite"
-    elif [ "$OS" == "mac" ]; then
-        echo "  macOS: brew install python@3.11 git sqlite3"
+    
+    # Test with hello-world (suppress output)
+    if docker run --rm hello-world &> /dev/null; then
+        print_success "Docker working correctly"
+    else
+        print_error "Docker test failed - may need manual configuration"
+        print_info "Try running: sudo docker run hello-world"
+        print_info "If that fails, you may need to log out and back in"
     fi
-    exit 1
-fi
+}
 
-# Continue with setup if all required dependencies are present
-echo ""
-echo "✓ All required dependencies found!"
-echo ""
+# Install Node.js and npm (for Playwright MCP)
+install_node() {
+    print_info "Checking Node.js installation..."
+    
+    if command -v node &> /dev/null && command -v npm &> /dev/null; then
+        print_success "Node.js already installed: $(node --version)"
+        return
+    fi
+    
+    print_info "Installing Node.js..."
+    
+    # Use NodeSource repository for latest stable
+    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+    
+    print_success "Node.js installed: $(node --version)"
+}
 
-# Ensure project directories exist (most should already exist)
-echo "Checking project directories..."
-mkdir -p src/venv 2>/dev/null || true
-echo "✓ Project directories verified"
+# Fix Playwright MCP for Linux (critical improvement)
+fix_playwright_linux() {
+    print_info "Configuring Playwright MCP for Linux..."
+    
+    # Install Chrome browser dependencies
+    print_info "Installing Google Chrome for Playwright..."
+    
+    # Add Google's signing key and repository
+    wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+    
+    sudo apt update
+    sudo apt install -y google-chrome-stable
+    
+    print_success "Chrome installed for Playwright browser automation"
+    
+    # Install Playwright MCP globally
+    print_info "Installing Playwright MCP..."
+    npm install -g @playwright/mcp
+    
+    # Install browser binaries
+    npx playwright install chromium firefox webkit
+    
+    print_success "Playwright MCP configured for Linux"
+    print_warning "Restart Claude Code after setup to activate Playwright MCP"
+}
 
-echo "Setting up Python environment..."
-
-cd src 2>/dev/null || { echo "Creating src directory..."; mkdir -p src && cd src; }
-
-if [ ! -d "venv" ]; then
-    echo "Creating virtual environment..."
-    $PYTHON_CMD -m venv venv
-    echo "✓ Virtual environment created"
-else
-    echo "✓ Virtual environment already exists"
-fi
-
-# Activate virtual environment and install dependencies
-echo "Installing Python dependencies..."
-if [[ "$OS" == "windows" ]]; then
-    source venv/Scripts/activate
-else
-    source venv/bin/activate
-fi
-
-# Create requirements.txt if it doesn't exist
-if [ ! -f "requirements.txt" ]; then
-    echo "Creating requirements.txt..."
-    cat > requirements.txt << EOF
-# Core Flask Dependencies - INSTALLED BY CLAUDE DURING SETUP
-# Claude will replace comments with exact versions during setup phase
-
-# Core Flask stack
-Flask
-python-dotenv
-Werkzeug
-
-# Development tools
-autopep8
-pylint
-
-# Project-specific dependencies will be added by Claude based on project needs:
-# Database: SQLAlchemy, Flask-SQLAlchemy
-# Auth: Flask-WTF, Flask-Login
-# APIs: requests
-# Production: gunicorn, psycopg2-binary
-# etc.
-EOF
-    echo "✓ Created requirements.txt template"
-    echo ""
-    echo "Note: Claude Code will install dependencies with exact versions during setup"
-fi
-
-# Create .env template
-cd ..
-if [ ! -f ".env.example" ]; then
-    echo "Creating .env.example..."
-    cat > .env.example << EOF
-# Environment Configuration
-FLASK_APP=app.py
-FLASK_ENV=development
-SECRET_KEY=your-secret-key-here
-
-# Database
-DATABASE_URL=sqlite:///database.db
-
-# Future configurations (uncomment when needed)
-# MAIL_SERVER=smtp.gmail.com
-# MAIL_PORT=587
-# MAIL_USERNAME=your-email@gmail.com
-# MAIL_PASSWORD=your-app-password
-
-# API Keys (add as needed)
-# OPENAI_API_KEY=sk-...
-# STRIPE_SECRET_KEY=sk_test_...
-EOF
-    echo "✓ Created .env.example"
-fi
-
-# Create .gitignore if it doesn't exist
-if [ ! -f ".gitignore" ]; then
-    echo "Creating .gitignore..."
-    cat > .gitignore << EOF
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-venv/
-env/
-ENV/
-
+# Create project structure
+create_project_structure() {
+    print_info "Creating enhanced project structure..."
+    
+    # Create directories
+    mkdir -p src/{static/{css,js,images},templates/{layouts,pages,partials}}
+    mkdir -p docs migrations tests research config
+    
+    # Create .gitignore if it doesn't exist
+    if [ ! -f ".gitignore" ]; then
+        cat > .gitignore << 'EOF'
 # Environment
 .env
 .env.local
-.env.*.local
+*.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+*.egg-info/
 
 # Database
 *.db
-*.sqlite
-*.sqlite3
+*.sqlite*
+
+# Docker
+.dockerignore
 
 # IDE
 .vscode/
 .idea/
 *.swp
-*.swo
-*~
 
 # OS
 .DS_Store
@@ -284,311 +207,231 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
 
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
-
-# Production
-dist/
-build/
-*.egg-info/
 EOF
-    echo "✓ Created .gitignore"
-fi
+        print_success "Created .gitignore"
+    fi
+    
+    # Copy port_utils.py if it exists, otherwise create it
+    if [ -f "src/port_utils.py" ]; then
+        print_success "Port selection system already exists"
+    else
+        cat > src/port_utils.py << 'EOF'
+"""
+Port selection utilities for Web Starter Kit projects.
+Ensures each project gets a consistent, conflict-free port.
+"""
 
-# Create initial app structure
-if [ ! -f "src/app.py" ]; then
-    echo "Creating basic Flask app..."
-    cat > src/app.py << EOF
-from flask import Flask, render_template
-from dotenv import load_dotenv
-from port_utils import get_project_port_from_env
+import hashlib
+import socket
 import os
 
-# Load environment variables
-load_dotenv()
 
-# Create Flask app
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
+def select_project_port(project_name=None):
+    """Smart port selection for the project."""
+    if project_name is None:
+        project_name = os.path.basename(os.getcwd())
+    
+    # Deterministic based on project name
+    base_hash = int(hashlib.md5(project_name.lower().encode()).hexdigest()[:4], 16)
+    suggested_port = 5000 + (base_hash % 1000)
+    
+    # Check if suggested port is available
+    if is_port_available(suggested_port):
+        return suggested_port
+    
+    # Find next available port in range
+    for offset in range(1, 100):
+        alternative_port = 5000 + ((base_hash + offset) % 1000)
+        if is_port_available(alternative_port):
+            return alternative_port
+    
+    # Fallback: Find any available port
+    return find_random_available_port()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
-if __name__ == '__main__':
-    # Get project-specific port (from .env or auto-selected)
-    port = get_project_port_from_env()
+def is_port_available(port):
+    """Check if a port is available for binding."""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.bind(('localhost', port))
+            return True
+    except OSError:
+        return False
+
+
+def find_random_available_port(start_port=5000, max_attempts=100):
+    """Find any available port starting from start_port."""
+    for port in range(start_port, start_port + max_attempts):
+        if is_port_available(port):
+            return port
+    
+    raise RuntimeError(f"No free ports found in range {start_port}-{start_port + max_attempts}")
+
+
+def get_project_port_from_env():
+    """Get port from environment variable, with fallback to auto-selection."""
+    port_env = os.getenv('PORT')
+    if port_env:
+        try:
+            port = int(port_env)
+            if is_port_available(port):
+                return port
+            else:
+                print(f"Warning: Port {port} from environment is not available")
+        except ValueError:
+            print(f"Warning: Invalid port in environment: {port_env}")
+    
+    return select_project_port()
+
+
+if __name__ == "__main__":
     project_name = os.path.basename(os.getcwd())
-    
-    print(f"Starting {project_name} on http://localhost:{port}")
-    print(f"Press CTRL+C to quit")
-    
-    app.run(debug=True, host='0.0.0.0', port=port)
+    port = select_project_port()
+    print(f"Selected port {port} for project '{project_name}'")
+    print(f"Port {port} available: {is_port_available(port)}")
 EOF
-    echo "✓ Created app.py with intelligent port selection"
-fi
-
-# Create basic templates
-mkdir -p src/templates
-if [ ! -f "src/templates/base.html" ]; then
-    cat > src/templates/base.html << EOF
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My App{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    {% block extra_head %}{% endblock %}
-</head>
-<body>
-    <header>
-        <nav>
-            <a href="/">Home</a>
-        </nav>
-    </header>
+        print_success "Created port selection system"
+    fi
     
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    print_success "Enhanced project structure created"
+}
+
+# Create basic requirements template (Claude will populate with latest versions)
+create_requirements_template() {
+    if [ ! -f "src/requirements.txt" ]; then
+        cat > src/requirements.txt << 'EOF'
+# Core Flask Dependencies
+# NOTE: Claude Code will install LATEST versions during setup phase
+# This file serves as a template for dependency categories
+
+# Core Flask stack
+Flask
+python-dotenv
+Werkzeug
+
+# Database (PostgreSQL for production)
+SQLAlchemy
+Flask-SQLAlchemy
+psycopg2-binary
+
+# Forms and validation
+Flask-WTF
+WTForms
+
+# Development tools
+autopep8
+
+# Production server
+gunicorn
+
+# Project-specific dependencies will be added by Claude based on project needs
+EOF
+        print_success "Created requirements template (Claude will install latest versions)"
+    fi
+}
+
+# Git configuration
+configure_git() {
+    print_info "Checking Git configuration..."
     
-    <footer>
-        <p>&copy; 2024 My App. All rights reserved.</p>
-    </footer>
+    # Check if user.email is set
+    if ! git config --global user.email &> /dev/null; then
+        print_warning "Git user email not configured"
+        read -p "Enter your email for Git commits: " git_email
+        git config --global user.email "$git_email"
+        print_success "Git email configured"
+    else
+        print_success "Git email already configured: $(git config --global user.email)"
+    fi
     
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    {% block extra_scripts %}{% endblock %}
-</body>
-</html>
-EOF
-    echo "✓ Created base template"
-fi
-
-if [ ! -f "src/templates/index.html" ]; then
-    cat > src/templates/index.html << EOF
-{% extends "base.html" %}
-
-{% block title %}Home - My App{% endblock %}
-
-{% block content %}
-<div class="container">
-    <h1>Welcome to Your New Project</h1>
-    <p>This is your starting point. Begin building something amazing!</p>
-</div>
-{% endblock %}
-EOF
-    echo "✓ Created index template"
-fi
-
-# Create basic CSS
-mkdir -p src/static/css
-if [ ! -f "src/static/css/style.css" ]; then
-    cat > src/static/css/style.css << EOF
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
-}
-
-/* Utility Classes */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.text-center { text-align: center; }
-.mt-4 { margin-top: 2rem; }
-.mb-4 { margin-bottom: 2rem; }
-.p-4 { padding: 2rem; }
-
-/* Layout */
-header {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 1rem 0;
-}
-
-nav a {
-    text-decoration: none;
-    color: #333;
-    margin: 0 1rem;
-}
-
-main {
-    min-height: calc(100vh - 120px);
-    padding: 2rem 0;
-}
-
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-/* Components */
-.btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-EOF
-    echo "✓ Created base CSS"
-fi
-
-# Create basic JavaScript
-mkdir -p src/static/js
-if [ ! -f "src/static/js/main.js" ]; then
-    cat > src/static/js/main.js << EOF
-// Main JavaScript file
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('App initialized');
+    # Check if user.name is set
+    if ! git config --global user.name &> /dev/null; then
+        print_warning "Git user name not configured"
+        read -p "Enter your name for Git commits: " git_name
+        git config --global user.name "$git_name"
+        print_success "Git name configured"
+    else
+        print_success "Git name already configured: $(git config --global user.name)"
+    fi
     
-    // Add your JavaScript here
-});
-EOF
-    echo "✓ Created main.js"
-fi
-
-# Check Git configuration
-echo ""
-echo "Checking Git configuration..."
-
-# Check if user.email is set
-if ! git config --global user.email &> /dev/null; then
-    echo "Git user email not configured."
-    read -p "Enter your email for Git commits: " git_email
-    git config --global user.email "$git_email"
-    echo "✓ Git email set to: $git_email"
-else
-    echo "✓ Git email already configured: $(git config --global user.email)"
-fi
-
-# Check if user.name is set
-if ! git config --global user.name &> /dev/null; then
-    echo "Git user name not configured."
-    read -p "Enter your name for Git commits: " git_name
-    git config --global user.name "$git_name"
-    echo "✓ Git name set to: $git_name"
-else
-    echo "✓ Git name already configured: $(git config --global user.name)"
-fi
-
-# Set default branch to main if not set
-if ! git config --global init.defaultBranch &> /dev/null; then
-    git config --global init.defaultBranch main
-    echo "✓ Default branch set to 'main'"
-fi
+    # Set default branch to main
+    git config --global init.defaultBranch main 2>/dev/null || true
+    
+    print_success "Git configuration complete"
+}
 
 # Initialize Git repository
-echo ""
-echo "Initializing Git repository..."
-if [ -d ".git" ]; then
-    echo "✓ Git repository already exists"
-else
-    git init
-    echo "✓ Git repository initialized"
-    
-    # Create initial commit
-    read -p "Would you like to create an initial commit? (y/n) " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        git add .
-        git commit -m "Initial commit - project skeleton"
-        echo "✓ Initial commit created"
-        
-        # Offer to create GitHub repository
-        echo ""
-        read -p "Would you like to create a GitHub repository? (y/n) " -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            # Check if GitHub CLI is installed
-            if command -v gh &> /dev/null; then
-                echo ""
-                echo "GitHub CLI detected! Let's create a repository."
-                read -p "Repository name (default: ${PWD##*/}): " repo_name
-                repo_name=${repo_name:-${PWD##*/}}
-                
-                read -p "Make repository private? (y/n) " -n 1 -r
-                echo
-                if [[ $REPLY =~ ^[Yy]$ ]]; then
-                    visibility="--private"
-                else
-                    visibility="--public"
-                fi
-                
-                echo "Creating GitHub repository..."
-                if gh repo create "$repo_name" $visibility --source=. --remote=origin --push; then
-                    echo "✓ GitHub repository created and code pushed!"
-                    echo "✓ View your repo at: https://github.com/$(git config user.name)/$repo_name"
-                else
-                    echo "❌ Failed to create repository. You may need to login first:"
-                    echo "   gh auth login"
-                fi
-            else
-                echo ""
-                echo "To create a GitHub repository:"
-                echo "1. Go to https://github.com/new"
-                echo "2. Create a new repository (don't initialize with README)"
-                echo "3. Run these commands:"
-                echo ""
-                echo "   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git"
-                echo "   git branch -M main"
-                echo "   git push -u origin main"
-                echo ""
-                echo "💡 Tip: Install GitHub CLI for easier setup:"
-                echo "   https://cli.github.com/manual/installation"
-            fi
-        fi
+init_git_repo() {
+    if [ ! -d ".git" ]; then
+        print_info "Initializing Git repository..."
+        git init
+        print_success "Git repository initialized"
     else
-        echo "⚠️  Remember to commit your initial files when ready:"
-        echo "   git add ."
-        echo "   git commit -m 'Initial commit'"
+        print_success "Git repository already exists"
     fi
-fi
+}
 
-# Guide to Claude Code setup
-echo ""
-echo "🤖 Project is ready for Claude Code!"
-echo ""
-echo "✅ Bootstrap Complete!"
-echo ""
-echo "Next steps:"
-echo "1. Start Claude Code:"
-echo "   claude"
-echo ""
-echo "2. Begin with setup phase:"
-echo "   /setup start"
-echo ""
-echo "3. Claude will then:"
-echo "   • Ask about your project"
-echo "   • Help create documentation"
-echo "   • Plan your implementation"
-echo ""
-echo "4. When ready to build:"
-echo "   /setup complete"
-echo ""
-echo "📖 See USER_GUIDE/ for detailed documentation"
-echo ""
-echo "Happy building! 🎉"
+# Main execution
+main() {
+    echo "🔧 System Dependency Installation"
+    echo "================================="
+    
+    check_system_deps
+    install_docker
+    test_docker
+    install_node
+    fix_playwright_linux
+    
+    echo ""
+    echo "📁 Project Structure Setup"
+    echo "=========================="
+    
+    create_project_structure
+    create_requirements_template
+    configure_git
+    init_git_repo
+    
+    echo ""
+    print_success "🎉 Bootstrap Complete!"
+    echo ""
+    echo "✅ System dependencies installed:"
+    echo "   • Docker with container support"
+    echo "   • Node.js with Playwright MCP"
+    echo "   • Chrome browser for automation"
+    echo "   • Git version control"
+    echo ""
+    echo "📁 Project structure created:"
+    echo "   • Enhanced directory layout"
+    echo "   • Requirements template"
+    echo "   • Port selection system"
+    echo ""
+    echo "🚀 Next Steps:"
+    echo "1. Start Claude Code:"
+    echo "   claude"
+    echo ""
+    echo "2. Begin setup phase:"
+    echo "   /setup start"
+    echo ""
+    echo "3. Claude will:"
+    echo "   • Install latest Python dependencies"
+    echo "   • Create Docker configuration"
+    echo "   • Build professional documentation"
+    echo "   • Set up database containers"
+    echo "   • Verify Playwright MCP functionality"
+    echo ""
+    echo "4. Complete setup:"
+    echo "   /setup complete"
+    echo ""
+    print_warning "Remember to restart Claude Code after setup to activate Playwright MCP"
+    echo ""
+    echo "Happy building! 🎉"
+}
+
+# Run main function
+main "$@"
