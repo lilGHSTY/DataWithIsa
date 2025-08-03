@@ -57,7 +57,7 @@ This is a web application project using:
 
 **CRITICAL Setup Phase Workflow:**
 1. **CHECK FIRST**: Always use LS to check if directories/files exist
-2. **READ TEMPLATES**: Read all template files in templates/ directory
+2. **READ TEMPLATES**: Read all .template files in templates/ directory
 3. **COLLABORATE**: Work WITH the user, don't just fill out templates automatically
 4. **COPY & ENHANCE**: Copy templates to docs/ and fill with user-confirmed content
 5. **CONFIRM DECISIONS**: Get explicit approval before making major technical choices
@@ -110,7 +110,7 @@ When user runs `/setup start`, complete these in order:
 ### PROJECT DISCOVERY  
 - [ ] Check `.claude/modes/` and create SETUP.lock
 - [ ] Read ANY existing drafts/ folder contents first
-- [ ] Read ALL template files in templates/ directory
+- [ ] Read ALL .template files in templates/ directory
 - [ ] Ask discovery questions about the project
 - [ ] **COLLABORATE**: Present findings and ask for confirmation/improvements
 

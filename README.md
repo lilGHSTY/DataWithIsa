@@ -223,20 +223,24 @@ Claude will guide you through project discovery and deliver a working applicatio
 
 ```
 your-project/
-├── USER_GUIDE/           # 📚 Complete documentation
-├── .claude/              # 🤖 Claude Code configuration
-├── templates/            # 📝 Professional documentation templates
+├── USER_GUIDE/           # 📚 Complete user documentation and guides
+├── .claude/              # 🤖 Claude Code configuration and internal guides
+├── templates/            # 📝 Professional documentation templates (*.template files)
 ├── docs/                 # 📋 Your project documentation (created during setup)
 ├── src/                  # 💻 Your application code
 │   ├── app.py           # Flask application (created by Claude)
-│   ├── port_utils.py    # Smart port selection
+│   ├── port_utils.py    # Smart port selection system
 │   ├── templates/       # HTML templates
 │   └── static/          # CSS, JS, images
-├── scripts/              # 🔧 Utility scripts and fixes
+├── scripts/              # 🔧 Utility scripts and troubleshooting tools
+├── config/               # ⚙️ Configuration files and settings
+├── migrations/           # 🗄️ Database schema changes
+├── research/             # 🔍 Research findings and documentation
+├── tests/                # 🧪 Test files and testing utilities
 ├── docker-compose.yml    # 🐳 Container orchestration (created during setup)
 ├── Dockerfile           # 🐳 Application container (created during setup)
 ├── bootstrap.sh         # 🚀 One-command setup script
-├── CLAUDE.md            # 🧠 Claude's instructions
+├── CLAUDE.md            # 🧠 Claude's internal instructions
 └── README.md            # 📖 This file
 ```
 
