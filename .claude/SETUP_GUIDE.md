@@ -1,163 +1,308 @@
-# Claude Code Setup Guide
+# Claude Code Setup Guide - Docker-First Approach
 
-This guide helps Claude Code lead users through the project setup phase.
+This guide helps Claude Code lead users through the project setup phase with our Docker-first development environment.
 
 ## Setup Flow Overview
 
-When a user starts with this skeleton, guide them through these phases:
+When a user runs `/setup start`, guide them through these phases:
 
-### Phase 1: Environment Setup (5 min)
-1. Check virtual environment exists: `ls src/venv`
-2. Activate the virtual environment
-3. Understand project needs through conversation
-4. Create appropriate requirements.txt
-5. Install dependencies
-6. Create project structure (app.py, templates, etc.)
-7. Create .env from .env.example
-8. Verify everything works by starting the dev server
+### Phase 1: Environment & Docker Setup (10 min)
+1. Create SETUP.lock in `.claude/modes/`
+2. Select project port using `python src/port_utils.py`
+3. Create Docker configuration files (Dockerfile, docker-compose.yml, .dockerignore)
+4. Create Flask application structure with latest dependencies
+5. Set up PostgreSQL database container
+6. Create .env file with project configuration
+7. Test Docker setup with `docker-compose up --build`
+8. Verify application loads at localhost:PORT
 
 ### Phase 2: Project Discovery (10-15 min)
-1. Ask about their project idea
-2. Review any rough drafts they have
-3. Understand their goals and constraints
-4. Identify target audience
-5. Determine MVP scope
+1. Ask about their project idea and goals
+2. Review any existing drafts/ folder contents
+3. Read all .template files from templates/ directory
+4. Understand target audience and user needs
+5. Determine MVP scope and phasing
+6. Identify business model and success metrics
 
-### Phase 3: Documentation Generation (10 min)
-1. Fill out docs/REQUIREMENTS.md based on discovery
-2. Update .claude/DECISIONS.md with technical choices
-3. Create initial docs/ARCHITECTURE.md
-4. Add project context to CLAUDE.md
+### Phase 3: Documentation Generation (15-20 min)
+1. Copy .template files to appropriate locations
+2. Fill out docs/REQUIREMENTS.md with user stories and phases
+3. Create docs/ARCHITECTURE.md with technical decisions
+4. Generate docs/BUSINESS_PLAN.md with market analysis
+5. Create docs/BRAND_GUIDELINES.md with voice and visual identity
+6. Update README.md from template with project specifics
+7. Create .claude/DECISIONS.md with technology choices
+8. Generate .claude/CONVENTIONS.md with coding standards
 
-### Phase 4: Research & Context Gathering (15-20 min)
-1. Research chosen technologies
-2. Find official documentation
-3. Store findings in research/ folder
-4. Create technology-specific guides
-
-### Phase 5: Development Planning (5 min)
-1. Create development roadmap
-2. Set up initial file structure
-3. Generate first implementation tasks
+### Phase 4: Final Setup & Verification (5 min)
+1. Ensure all Docker containers are running properly
+2. Take screenshot of working application (if Playwright MCP available)
+3. Commit all changes with descriptive message
+4. Push to GitHub repository (create if needed)
+5. Remove SETUP.lock to exit setup phase
 
 ## Key Principles
 
-1. **Conversational**: Keep it natural and friendly
-2. **Progressive**: Don't overwhelm with all questions at once
-3. **Flexible**: Adapt to user's knowledge level
-4. **Thorough**: Ensure you understand before implementing
+1. **Docker-First**: All development happens in containers
+2. **Latest Versions**: Install current stable versions with exact pinning
+3. **Conversational**: Keep dialogue natural and collaborative
+4. **Professional Output**: Generate business-ready documentation
+5. **Auto-Commit**: Save work automatically to GitHub
 
-## Setup Commands
+## Docker Configuration Files to Create
 
-When the user says something like "help me set up this project", start with:
+### Dockerfile
+```dockerfile
+FROM python:3.11-slim
 
-```bash
-# First, let's check your environment is ready
-ls -la src/venv  # Should exist from prepare-environment.sh
+WORKDIR /app
 
-# Activate virtual environment
-cd src
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-# We'll create requirements.txt after understanding your project
-# For now, let's talk about what you're building...
+# Copy and install Python dependencies
+COPY src/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY src/ .
+
+# Expose port (will be overridden by docker-compose)
+EXPOSE 5000
+
+# Run the application
+CMD ["python", "app.py"]
 ```
 
-After understanding the project, create requirements.txt:
+### docker-compose.yml
+```yaml
+version: '3.8'
 
+services:
+  web:
+    build: .
+    ports:
+      - "${PORT:-5000}:${PORT:-5000}"
+    volumes:
+      - ./src:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/app_db
+      - PORT=${PORT:-5000}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=app_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+```
+
+### .dockerignore
+```
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+*.log
+.git
+.gitignore
+.env
+.DS_Store
+*.sqlite3
+*.db
+```
+
+## Python Application Structure
+
+### src/app.py
 ```python
-# requirements.txt - tailored to their needs
-Flask>=3.0.0
-python-dotenv>=1.0.0
-# Add more based on project (e.g., SQLAlchemy, stripe, etc.)
+from flask import Flask, render_template, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import os
+from port_utils import get_project_port_from_env
+
+# Load environment variables
+load_dotenv()
+
+# Create Flask app
+app = Flask(__name__)
+
+# Configuration
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize extensions
+db = SQLAlchemy(app)
+
+# Routes
+@app.route('/')
+def index():
+    return render_template('index.html', project_name=os.getenv('PROJECT_NAME', 'My Project'))
+
+@app.route('/api/health')
+def health():
+    return jsonify({
+        'status': 'healthy',
+        'database': 'connected' if db.engine.execute('SELECT 1').scalar() == 1 else 'error'
+    })
+
+if __name__ == '__main__':
+    # Get port from environment or smart selection
+    port = get_project_port_from_env()
+    print(f"Starting application on http://localhost:{port}")
+    
+    # Create tables if they don't exist
+    with app.app_context():
+        db.create_all()
+    
+    # Run the application
+    app.run(host='0.0.0.0', port=port, debug=True)
 ```
 
-Then create the initial structure:
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Create project files
-# (Create app.py, templates, etc. based on their needs)
-
-# Set up environment
-cp .env.example .env
-# Edit .env with project-specific values
-
-# Test everything
-python app.py
+### src/requirements.txt (with latest versions)
+```
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.23
+python-dotenv==1.0.0
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
+Werkzeug==3.0.1
+# Add more based on project needs
 ```
 
-## Discovery Questions
+### HTML Templates
+Create basic templates in `src/templates/`:
 
-Ask these progressively, not all at once:
+**base.html**:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ project_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>{{ project_name }}</h1>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 {{ project_name }}. Built with Flask and Docker.</p>
+    </footer>
+</body>
+</html>
+```
 
-### Understanding the Project
-- "What are you building? Give me the elevator pitch!"
-- "Who will use this and what problem does it solve?"
-- "Do you have any documents, sketches, or notes I should review?"
+**index.html**:
+```html
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Welcome to {{ project_name }}!</h2>
+    <p>Your Docker-powered Flask application is running successfully.</p>
+    <p>Start building amazing features!</p>
+</div>
+{% endblock %}
+```
 
-### Technical Preferences
-- "Any specific technologies you want to use or avoid?"
-- "What's your experience level with web development?"
-- "Are you building this solo or with a team?"
+## Discovery Questions - Progressive Approach
 
-### Design & Brand
-- "How should it look and feel? Modern, playful, corporate?"
-- "Any existing brand colors or style guides?"
-- "Websites you like for inspiration?"
+### Initial Understanding
+- "What are you building? Tell me about your project idea!"
+- "Who will use this and what problem does it solve for them?"
+- "Do you have any sketches, notes, or documents I should look at?"
 
 ### Business Context
-- "What's driving this project? Personal, startup, client work?"
-- "When do you need the MVP ready?"
-- "Will this need to handle real users/payments/data?"
+- "Is this a personal project, startup idea, or client work?"
+- "Are you planning to charge for this? If so, what's the business model?"
+- "When do you need the first version ready?"
 
-## Research Triggers
+### Technical Preferences
+- "Any specific features or integrations you know you'll need?"
+- "What's your experience level with web development?"
+- "Are there any technologies you specifically want to use or avoid?"
 
-When the user mentions technologies, automatically research them:
-- Frontend frameworks → Research components, patterns, best practices
-- Databases → Research schema design, queries, migrations
-- APIs → Research authentication, rate limits, SDKs
-- Payment systems → Research integration, security, compliance
+### Design & User Experience
+- "How should it look and feel? Modern, playful, professional?"
+- "Any websites or apps you admire for inspiration?"
+- "Do you have brand colors or design preferences?"
 
-## File Templates to Update
+### Scale & Performance
+- "How many users do you expect initially? Eventually?"
+- "Will this handle sensitive data or payments?"
+- "Any specific performance requirements?"
 
-Based on discovery, update these files:
+## Template Processing
 
-### docs/REQUIREMENTS.md
-- Project overview from their description
-- User stories from target audience
-- Features from their needs
-- Design requirements from preferences
-- Success metrics from goals
+When filling templates:
+1. Read each .template file completely
+2. Ask relevant questions for each section
+3. Fill with specific, actionable content
+4. No placeholders - only real project information
+5. Review major sections with user before finalizing
 
-### .claude/DECISIONS.md
-Add decisions like:
-- Database choice and why
-- Frontend approach and why
-- Hosting platform and why
-- Key libraries and why
+## Auto-Commit Workflow
 
-### CLAUDE.md
-Update Project-Specific Notes with:
-- Project name and description
-- Key business context
-- Design direction
-- Priority features
-- Special considerations
+Throughout setup:
+1. Commit after Docker configuration is created
+2. Commit after Flask application is working
+3. Commit after each major documentation file
+4. Final commit with all setup complete
+5. Push to GitHub (create repo if needed)
 
 ## Handoff to Development
 
 After setup is complete:
-1. Summarize what was configured
-2. Show the development roadmap
-3. Suggest the first implementation task
-4. Confirm they're ready to start building
+1. Show summary of what was created
+2. Confirm Docker containers are running
+3. Display the localhost URL for testing
+4. Show the development roadmap from docs/PROGRESS.md
+5. Suggest first feature to implement
+6. Remove SETUP.lock file
 
 ## Remember
 
-- The user is the decision maker - always ask, don't assume
-- Start simple - complexity can be added later
-- Document everything for future sessions
-- Make the user feel confident and supported
+- Docker-first approach eliminates environment issues
+- Always install latest versions with exact pinning
+- Professional documentation is not optional
+- Auto-commit prevents lost work
+- User controls all major decisions
+- Start simple, enhance iteratively

@@ -100,12 +100,21 @@ This is a web application project using:
 When user runs `/setup start`, complete these in order:
 
 ### ENVIRONMENT SETUP (CRITICAL - Do First)
-- [ ] **INSTALL DEPENDENCIES**: Install latest versions with exact version pinning
-- [ ] **CREATE DOCKER CONFIGURATION**: Set up docker-compose.yml and Dockerfile for development
-- [ ] **SELECT PROJECT PORT**: Use smart port selection system to avoid conflicts
-- [ ] **VERIFY SERVER WORKS**: Test that development server starts successfully
-- [ ] **INSTALL PLAYWRIGHT MCP**: Set up browser automation if needed
-- [ ] **TEST MCP**: Verify Playwright tools are available after restart
+- [ ] **SELECT PROJECT PORT**: Run `python src/port_utils.py` to get project-specific port
+- [ ] **CREATE DOCKER CONFIGURATION**: 
+  - Create `Dockerfile` with Python 3.11+, Flask, and all dependencies
+  - Create `docker-compose.yml` with web and PostgreSQL containers
+  - Create `.dockerignore` file for efficient builds
+  - Set up volume mounts for live code reloading
+- [ ] **CREATE PYTHON APPLICATION**:
+  - Create `src/app.py` with Flask application using port_utils
+  - Install latest Flask, SQLAlchemy, python-dotenv, etc. with exact versions
+  - Create `src/requirements.txt` with all pinned versions
+  - Set up proper Flask project structure (routes/, models/, etc.)
+- [ ] **CREATE .ENV FILE**: Copy from .env.example and set PROJECT_NAME and PORT
+- [ ] **VERIFY DOCKER WORKS**: Run `docker-compose up --build` and test
+- [ ] **INSTALL PLAYWRIGHT MCP**: If user confirms browser automation needed
+- [ ] **TEST MCP**: Verify Playwright tools work after Claude restart
 
 ### PROJECT DISCOVERY  
 - [ ] Check `.claude/modes/` and create SETUP.lock
@@ -303,6 +312,102 @@ Example port selection:
 # Project "DataWithIsa" → hash → port 5247
 # Project "my-blog" → hash → port 5432
 # Always consistent for same project name
+```
+
+## Files Claude Must Create During Setup Phase
+
+### Docker Configuration Files
+
+**Dockerfile** - Web application container:
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY src/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src/ .
+CMD ["python", "app.py"]
+```
+
+**docker-compose.yml** - Container orchestration:
+```yaml
+version: '3.8'
+services:
+  web:
+    build: .
+    ports:
+      - "${PORT:-5000}:5000"
+    volumes:
+      - ./src:/app
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://user:pass@db:5432/dbname
+    depends_on:
+      - db
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=dbname
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
+```
+
+**.dockerignore** - Exclude files from Docker:
+```
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.env
+.git
+.gitignore
+```
+
+### Python Application Files
+
+**src/app.py** - Main Flask application:
+```python
+from flask import Flask, render_template
+from dotenv import load_dotenv
+from port_utils import get_project_port_from_env
+import os
+
+load_dotenv()
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    port = get_project_port_from_env()
+    app.run(host='0.0.0.0', port=port, debug=True)
+```
+
+**src/requirements.txt** - With exact versions:
+```
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+python-dotenv==1.0.0
+psycopg2-binary==2.9.9
+gunicorn==21.2.0
+# Add more as needed with exact versions
+```
+
+**.env** - Environment configuration:
+```
+PROJECT_NAME=my-awesome-project
+PORT=5247
+SECRET_KEY=dev-secret-key-change-in-production
+DATABASE_URL=postgresql://user:pass@db:5432/dbname
 ```
 
 ## Documentation Standards for Setup Phase

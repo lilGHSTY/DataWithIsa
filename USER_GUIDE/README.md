@@ -49,7 +49,7 @@ claude
 
 - **Main README.md** - Project overview and quick start
 - **CLAUDE.md** - Claude Code's internal instructions
-- **templates/README.md** - Documentation template system
+- **templates/README.md.template** - Documentation template system
 - **scripts/README.md** - Utility scripts and fixes
 
 ---
