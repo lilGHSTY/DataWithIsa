@@ -1,0 +1,35 @@
+# DataWithIsa - Core Python Dependencies
+# All versions pinned for production stability
+
+# Core Flask stack
+Flask==3.0.3
+python-dotenv==1.0.1
+Werkzeug==3.0.4
+
+# Database (PostgreSQL for production)
+SQLAlchemy==2.0.35
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.7
+psycopg2-binary==2.9.9
+alembic==1.13.3
+
+# Forms and validation
+Flask-WTF==1.2.1
+WTForms==3.1.2
+email-validator==2.2.0
+
+# Security
+bleach==6.1.0
+
+# Email service
+sendgrid==6.11.0
+
+# Development tools
+autopep8==2.3.1
+
+# Production server
+gunicorn==23.0.0
+
+# Utilities
+requests==2.32.3
+python-dateutil==2.9.0

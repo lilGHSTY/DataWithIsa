@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Get Started - DataWithIsa{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Let's Build Your Dashboard</h1>
+        <p class="lead">Get clear insights into your business data in 24-48 hours</p>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="contact-content">
+            <div class="contact-form-section">
+                <h2>Schedule Your Consultation</h2>
+                <p>Tell me about your business and data needs. I'll reach out within 24 hours to schedule a consultation.</p>
+                
+                <form class="contact-form" method="POST" action="/contact">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="business">Business Name *</label>
+                        <input type="text" id="business" name="business" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="industry">Industry/Business Type *</label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select your industry</option>
+                            <option value="restaurant">Restaurant/Food Service</option>
+                            <option value="retail">Retail/E-commerce</option>
+                            <option value="consulting">Professional Services/Consulting</option>
+                            <option value="realestate">Real Estate</option>
+                            <option value="health">Health/Wellness/Fitness</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">What data challenges are you facing? *</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-large">Get My Dashboard</button>
+                </form>
+            </div>
+            
+            <div class="contact-info">
+                <h3>What Happens Next?</h3>
+                <ol>
+                    <li>I'll review your submission within 24 hours</li>
+                    <li>We'll schedule a 15-minute consultation call</li>
+                    <li>I'll create a custom dashboard proposal</li>
+                    <li>Your dashboard will be ready in 24-48 hours after approval</li>
+                </ol>
+                
+                <div class="pricing-reminder">
+                    <h3>Simple, Transparent Pricing</h3>
+                    <p><strong>Foundation Package:</strong> $300/month</p>
+                    <ul>
+                        <li>1 custom dashboard</li>
+                        <li>Monthly data updates</li>
+                        <li>Email support</li>
+                    </ul>
+                    <p>Additional widgets and features available as needed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

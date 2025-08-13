@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "${PORT:-5689}:5689"
+    volumes:
+      - ./src:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - DATABASE_URL=postgresql://dataisa:dataisa123@db:5432/datawithisa
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
+      - PORT=${PORT:-5689}
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - datawithisa-network
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=dataisa
+      - POSTGRES_PASSWORD=dataisa123
+      - POSTGRES_DB=datawithisa
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Port not exposed externally - only accessible within network
+    restart: unless-stopped
+    networks:
+      - datawithisa-network
+
+volumes:
+  postgres_data:
+
+networks:
+  datawithisa-network:
+    driver: bridge
