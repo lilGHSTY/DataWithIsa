@@ -4,6 +4,8 @@ Welcome Claude Code! This file contains project-specific instructions for workin
 
 **⚠️ IMPORTANT: Before doing anything else, complete the "Session Startup Checklist" below to load all project context.**
 
+**🧳 FOR TRAVEL/NEW MACHINE: See QUICKSTART.md for setup instructions!**
+
 ## CRITICAL: Check Current Phase First
 
 **Check for lock files in `.claude/modes/` to determine behavior:**
@@ -27,11 +29,14 @@ Welcome Claude Code! This file contains project-specific instructions for workin
 4. Review `docs/REQUIREMENTS.md` for what we're building
 
 ## Project Overview
-This is a web application project using:
-- Frontend: HTML/CSS/JavaScript (vanilla)
-- Backend: Python Flask
-- Database: SQLite (development) → PostgreSQL (production)
-- Hosting: Local → Digital Ocean (when ready)
+DataWithIsa - Custom market intelligence dashboards built FOR businesses, not BY them.
+- **Service**: Done-for-you dashboard creation ($300/month foundation package)
+- **Frontend**: Vanilla HTML/CSS/JavaScript with Severance-inspired design (Olivine green)
+- **Backend**: Python Flask 3.0.3 with magic link authentication 
+- **Database**: PostgreSQL 15 in Docker (development and production)
+- **Port**: 5689 (consistent across all environments)
+- **Domain**: datawithisa.com (purchased, ready for hosting)
+- **Email**: isa@datawithisa.com (Google Workspace)
 
 ## IMPORTANT: Technology Stack Rules
 **DO NOT change the core stack without explicit user approval:**
