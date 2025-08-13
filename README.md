@@ -1,301 +1,321 @@
-# Web Starter Kit
+# DataWithIsa
 
-> The only starter kit that delivers a **working application** with professional documentation in minutes, not days.
+> Custom market intelligence dashboards built **FOR you**, not **BY you**. Affordable data insights for small businesses.
 
-[![License: Public Domain](https://img.shields.io/badge/License-Public%20Domain-blue.svg)](https://en.wikipedia.org/wiki/Public_domain)
+[![GitHub](https://img.shields.io/badge/GitHub-DataWithIsa-blue.svg)](https://github.com/lilGHSTY/DataWithIsa)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
 [![Python](https://img.shields.io/badge/Python-3.11+-green.svg)](https://python.org)
-[![Flask](https://img.shields.io/badge/Flask-Latest-red.svg)](https://flask.palletsprojects.com)
+[![Flask](https://img.shields.io/badge/Flask-3.0.3-red.svg)](https://flask.palletsprojects.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://postgresql.org)
 
-## 🎯 What This Kit Handles For You vs. What You Need to Know
+## 🎯 What DataWithIsa Offers
 
-### **✅ What's Completely Handled For You**
+### **💡 The Problem We Solve**
 
-#### **📁 Professional Project Foundation**
-- **Complete file structure** for modern web development
-- **9 business-ready documentation templates** (not generic placeholders)
-- **Smart port selection** - each project gets its own conflict-free port
-- **Enhanced `.gitignore`** and project configuration files
+Small businesses need data insights but lack:
+- Time to learn complex analytics tools
+- Budget for expensive enterprise solutions
+- Technical skills to build custom dashboards
+- Resources to hire data analysts
 
-#### **🔧 Bulletproof Environment Setup** 
-- **Docker installation and configuration** (works the same on every machine)
-- **Database containers** (PostgreSQL ready to go)
-- **Browser automation** (Playwright MCP configured for testing)
-- **Development dependencies** (latest versions, properly pinned)
-- **GitHub repository creation** and version control setup
+### **✅ Our Solution: Done-For-You Dashboards**
 
-#### **🤖 AI-Powered Development Workflow**
-- **Claude Code integration** that actually understands your project
-- **Automatic commits and pushes** to GitHub (never lose work again)
-- **Professional documentation generation** (real content, not templates)
-- **Research mode** for gathering official docs before implementing features
+#### **📊 Custom Dashboard Creation**
+- **Personalized consultation** to understand your specific needs
+- **Hand-crafted dashboards** tailored to your industry
+- **24-48 hour delivery** from consultation to working dashboard
+- **No technical skills required** - just access your insights
 
-#### **🐳 Production-Ready Containers**
-- **Same environment everywhere** (your laptop = your teammate's = production)
-- **Zero "works on my machine" problems**
-- **Instant project startup** with `docker-compose up`
-- **Database included** and configured automatically
+#### **🔄 Intelligent Data Collection** 
+- **AI-powered data extraction** using Jina.ai technology
+- **Multiple data sources** integrated seamlessly
+- **Automatic updates** (weekly, bi-weekly, or monthly)
+- **Clean, structured insights** ready for decision-making
+
+#### **🎨 Severance-Inspired Design**
+- **Cozy office aesthetic** - warm and approachable, not cold corporate
+- **Olivine green theme** (#8EAB81) for a calming, professional look
+- **Mobile-responsive** for checking insights on the go
+- **Intuitive navigation** designed for busy business owners
+
+#### **💰 Transparent, Affordable Pricing**
+- **Foundation Package**: $300/month for essential dashboards
+- **Modular add-ons** starting at $50-150/month per widget
+- **No hidden fees** or enterprise pricing games
+- **Cancel anytime** with no long-term contracts
 
 ---
 
-### **🎓 What You Need to Know (3 Commands + Basic Concepts)**
+## 🏢 Perfect For These Businesses
 
-#### **Essential Commands (That's It!)**
+### **🍽️ Local Service Businesses**
+- **Restaurants** tracking reviews, foot traffic, and menu performance
+- **Salons & Fitness Studios** monitoring customer satisfaction and bookings
+- **Medical Practices** analyzing patient flow and service metrics
+
+### **💼 Professional Consultants**
+- **Marketing Consultants** tracking campaign performance and ROI
+- **Financial Advisors** monitoring client portfolio performance
+- **Business Consultants** demonstrating impact to clients
+
+### **🛍️ E-commerce & Retail**
+- **Amazon Sellers** tracking sales, inventory, and competition
+- **Shopify Stores** monitoring conversion rates and customer behavior
+- **Local Retailers** analyzing foot traffic and sales trends
+
+### **🏠 Real Estate Professionals**
+- **Agents** tracking market trends and property performance
+- **Property Managers** monitoring rental metrics and maintenance
+- **Investors** analyzing property ROI and market opportunities
+
+---
+
+## 🚀 Development Setup (For Contributors)
+
+This application runs on **port 5689** and uses Docker for consistent development.
+
+### Quick Start
 ```bash
-git clone https://github.com/lilGHSTY/web-starter-kit.git my-project
-cd my-project
-./bootstrap.sh                   # Set up everything
-claude                          # Start building with AI
+git clone https://github.com/lilGHSTY/DataWithIsa.git
+cd DataWithIsa
+docker-compose up --build
 ```
 
-#### **Simple Workflow Controls**
-- **`/setup start`** - Begin project discovery with Claude
-- **`/setup complete`** - Start building features  
-- **`/research [topic]`** - Research before implementing new features
+Visit **http://localhost:5689** to see the landing page.
 
-#### **Basic Concepts**
-- **Phases** - Claude behaves differently in setup vs. development (you control this)
-- **Templates** - Claude helps you fill out professional business documents
-- **Containers** - Your code runs in Docker (but Claude handles the complexity)
-
----
-
-### **🚫 What You DON'T Need to Know**
-
-#### **Complex DevOps Stuff**
-- Docker Compose syntax and container orchestration
-- Environment variable management across different systems  
-- Database setup, connections, and configuration
-- Port conflict resolution and networking
-- System dependency installation across different Linux distributions
-
-#### **Documentation Writing**
-- Business plan structure and market analysis frameworks
-- Brand guidelines and voice/tone development
-- Technical architecture documentation standards
-- Professional README and API documentation formats
-
-#### **Git Workflow Complexity**
-- Repository creation and remote configuration
-- Commit message standards and branching strategies
-- GitHub CLI commands and API interactions
-- Version control best practices and automation
-
-#### **AI Integration Complexity**
-- Claude Code configuration and context management
-- MCP (Model Context Protocol) setup and troubleshooting
-- Browser automation configuration for testing
-- Research workflow optimization and documentation storage
-
-#### **Environment Management Nightmares**
-- Virtual environment conflicts and Python version mismatches
-- System package installation across different operating systems
-- Browser dependency resolution for automation tools
-- Cross-platform development environment consistency
-
----
-
-## 💡 **The Result: You Focus on Building, Not Setup**
-
-**Instead of spending days on:**
-- Fighting with environment setup
-- Writing documentation from scratch  
-- Configuring Docker and databases
-- Setting up testing and automation
-
-**You immediately start:**
-- Building your actual features
-- Making business decisions with Claude's guidance
-- Iterating on user feedback
-- Deploying to production with the same containers
-
----
-
-## 🚀 Quick Start (2 Minutes to Working App)
-
-### Step 1: Get the Kit
+### Development Commands
 ```bash
-git clone https://github.com/lilGHSTY/web-starter-kit.git my-awesome-project
-cd my-awesome-project
+# Start development server
+docker-compose up
+
+# Run in background
+docker-compose up -d
+
+# Stop containers
+docker-compose down
+
+# View logs
+docker-compose logs -f web
+
+# Check health
+curl http://localhost:5689/health
 ```
-
-### Step 2: One-Command Setup
-```bash
-./bootstrap.sh
-```
-**This automatically:**
-- ✓ Installs Docker and system dependencies
-- ✓ Sets up Node.js and browser automation
-- ✓ Creates project structure
-- ✓ Configures Git and port selection
-- ✓ Prepares everything for Claude Code
-
-### Step 3: Start Building with AI
-```bash
-claude
-```
-
-**Then run:**
-```
-/setup start
-```
-
-Claude will guide you through project discovery and deliver a working application!
-
----
-
-## 📋 What You Get After Setup
-
-### **Working Application**
-- **Localhost:PORT** loads your project immediately (port auto-selected)
-- **Interactive features** work out of the box
-- **Database containers** running and connected
-- **Browser automation** ready for testing
-
-### **Professional Documentation**
-- **REQUIREMENTS.md** - Your specific project details and user stories
-- **ARCHITECTURE.md** - Technical design decisions and database schema
-- **BUSINESS_PLAN.md** - Market analysis and financial projections
-- **BRAND_GUIDELINES.md** - Voice, tone, and visual identity
-- **SECURITY_PLAN.md** - Authentication, data protection, and compliance
-- **API_REFERENCE.md** - Endpoint documentation
-- **TESTING_STRATEGY.md** - Quality assurance approach
-- **PROGRESS.md** - Development roadmap and milestones
-
-### **Development Environment**
-- **Docker containers** for consistent development
-- **GitHub repository** created and configured
-- **Claude Code context** fully loaded with your project details
-- **Browser automation** working and tested
 
 ---
 
 ## 🛠️ Technology Stack
 
-### **Core Foundation**
-- **Frontend**: Vanilla HTML/CSS/JavaScript (enhance as needed)
-- **Backend**: Python Flask (minimal and flexible)
-- **Database**: PostgreSQL in Docker containers
-- **Deployment**: Docker containers (dev = production)
+### **Frontend**
+- **HTML/CSS/JavaScript**: Vanilla approach for fast loading and simplicity
+- **Design System**: Severance-inspired with Olivine green (#8EAB81) theme
+- **Charts**: Chart.js for data visualizations
+- **Responsive**: Mobile-first design for business owners on the go
 
-### **Development Tools**
-- **Containers**: Docker Compose for consistency
-- **Version Control**: Git with GitHub CLI integration
-- **AI Assistant**: Claude Code with full project context
-- **Testing**: Playwright for browser automation
-- **Port Management**: Smart selection prevents conflicts
+### **Backend**
+- **Python 3.11+**: Modern Python with type hints
+- **Flask 3.0.3**: Lightweight web framework perfect for dashboards
+- **SQLAlchemy**: Database ORM with migration support
+- **Magic Links**: Password-free authentication via email
 
----
+### **Data & Integrations**
+- **Jina.ai**: AI-powered web scraping and data extraction
+- **SendGrid**: Transactional email for magic links
+- **PostgreSQL 15**: Production-ready database with JSON support
+- **Chart.js**: Interactive dashboard visualizations
 
-## 🏆 Why This Kit Works
+### **Infrastructure**
+- **Docker**: Containerized development and deployment
+- **Nginx**: Web server and reverse proxy (production)
+- **Let's Encrypt**: SSL certificates for security
+- **Digital Ocean**: Hosting platform (when ready)
 
-### **Docker-First Approach**
-- **95%+ setup success rate** (vs ~30% with traditional methods)
-- **Identical environments** from development to production
-- **No dependency conflicts** or version mismatches
-- **Works on any Linux system** consistently
-
-### **AI-Powered Workflow**
-- **Claude Code understands your project** from comprehensive context
-- **Automatic documentation** generation (no more placeholder text)
-- **Research mode** gathers official docs before implementation
-- **Auto-commit workflow** prevents lost work
-
-### **Professional Standards**
-- **Business-ready documentation** from day one
-- **Production deployment ready** with same containers
-- **Security best practices** built in
-- **Scalable architecture** from the start
-
----
-
-## 🎯 Perfect For
-
-- **First-time developers** who want everything handled
-- **Experienced developers** tired of setup overhead  
-- **Teams** who need consistent environments
-- **Entrepreneurs** who want to focus on business, not infrastructure
-- **Anyone** building web applications with AI assistance
+### **Development**
+- **Port 5689**: Dedicated port for this project
+- **Docker Compose**: Development environment
+- **GitHub**: Version control and collaboration
+- **Claude Code**: AI-assisted development
 
 ---
 
 ## 📁 Project Structure
 
 ```
-your-project/
-├── USER_GUIDE/           # 📚 Complete user documentation and guides
-├── .claude/              # 🤖 Claude Code configuration and internal guides
-├── templates/            # 📝 Professional documentation templates (*.template files)
-├── docs/                 # 📋 Your project documentation (created during setup)
-├── src/                  # 💻 Your application code
-│   ├── app.py           # Flask application (created by Claude)
-│   ├── port_utils.py    # Smart port selection system
-│   ├── templates/       # HTML templates
-│   └── static/          # CSS, JS, images
-├── scripts/              # 🔧 Utility scripts and troubleshooting tools
-├── config/               # ⚙️ Configuration files and settings
-├── migrations/           # 🗄️ Database schema changes
-├── research/             # 🔍 Research findings and documentation
-├── tests/                # 🧪 Test files and testing utilities
-├── docker-compose.yml    # 🐳 Container orchestration (created during setup)
-├── Dockerfile           # 🐳 Application container (created during setup)
-├── bootstrap.sh         # 🚀 One-command setup script
-├── CLAUDE.md            # 🧠 Claude's internal instructions
+DataWithIsa/
+├── .claude/              # 🤖 Claude Code configuration and decisions
+│   ├── DECISIONS.md     # Technical choices and rationale
+│   ├── CONVENTIONS.md   # Coding standards and best practices
+│   └── modes/           # Phase control (setup vs development)
+├── drafts/               # 📝 Project planning documents and wireframes
+├── src/                  # 💻 Main application code
+│   ├── app.py           # Flask application entry point (port 5689)
+│   ├── port_utils.py    # Consistent port selection system
+│   ├── requirements.txt # Pinned Python dependencies
+│   ├── templates/       # HTML templates with Severance aesthetic
+│   │   ├── base.html    # Base template with navigation
+│   │   ├── index.html   # Landing page with value proposition
+│   │   ├── about.html   # About Isa page
+│   │   ├── examples.html # Dashboard examples
+│   │   └── contact.html # Contact form for consultations
+│   └── static/          # Static assets
+│       ├── css/main.css # Olivine green theme styles
+│       └── js/main.js   # Vanilla JavaScript functionality
+├── scripts/              # 🔧 Utility and troubleshooting scripts
+├── migrations/           # 🗄️ Database schema evolution
+├── tests/                # 🧪 Testing files (manual initially)
+├── docker-compose.yml    # 🐳 Development environment
+├── Dockerfile           # 🐳 Application container
+├── .env                 # ⚙️ Environment configuration (not committed)
+├── .dockerignore        # Docker build exclusions
+├── .gitignore           # Git exclusions
+├── CLAUDE.md            # 🧠 Claude's project instructions
 └── README.md            # 📖 This file
 ```
 
 ---
 
+## 🎯 Current Status
+
+### **✅ Completed (MVP Foundation)**
+- **Professional landing page** with clear value proposition
+- **Severance-inspired design** with Olivine green theme
+- **Docker development environment** on port 5689
+- **Page structure** (Home, About, Examples, Contact)
+- **Mobile-responsive design** for business owners
+- **Health check endpoint** for monitoring
+
+### **🚧 In Development**
+- Magic link authentication system
+- SendGrid email integration
+- Dashboard builder interface
+- Jina.ai data extraction
+- PostgreSQL database models
+
+### **📋 Planned Features**
+- Client dashboard viewer
+- Data widget library
+- Automated update scheduling
+- Payment processing (Stripe)
+- 3D Spline.design enhancements
+
+---
+
+## 💼 Business Model
+
+### **Service Philosophy**
+**Done-FOR-you**, not **BY-you**. We create custom dashboards rather than giving you tools to build your own.
+
+### **Pricing Structure**
+- **Foundation Package**: $300/month
+  - 1 custom dashboard
+  - Monthly data updates
+  - Email support
+- **Additional Widgets**: $50-150/month each
+- **Update Frequency**: 1.5x-2x multiplier for more frequent updates
+
+### **Target Customers**
+Small businesses ($100K-$2M revenue) who need data insights but lack:
+- Time to learn complex tools
+- Budget for enterprise solutions  
+- Technical skills for DIY approaches
+
+---
+
 ## 🆘 Troubleshooting
 
-### **Playwright Issues on Linux**
+### **Docker Issues**
 ```bash
-./scripts/fix-playwright-linux.sh
-```
+# Restart containers
+docker-compose down && docker-compose up --build
 
-### **Docker Problems**
-```bash
-# Restart Docker daemon
-sudo systemctl restart docker
+# Check if port 5689 is in use
+lsof -i :5689
 
-# Test Docker installation
-docker run hello-world
+# View application logs
+docker-compose logs -f web
+
+# PostgreSQL connection issues
+docker-compose logs -f db
 ```
 
 ### **Port Conflicts**
-The kit automatically selects unique ports per project. Check your assigned port:
+This project uses port 5689. To verify:
 ```bash
 cd src && python port_utils.py
 ```
 
-### **Claude Code Not Loading Project Context**
-Make sure to run this in every new session:
-```
-Please read CLAUDE.md and follow the Session Startup Checklist before we begin.
+### **Environment Issues**
+```bash
+# Verify environment variables
+cat .env
+
+# Check Docker health
+docker-compose ps
+
+# Test database connection
+docker exec -it dwi-webv2-db-1 psql -U dataisa -d datawithisa
 ```
 
 ---
 
-## 🤝 Need Help?
+## 👥 Getting Started as a Client
 
-1. **Start with USER_GUIDE/** - Complete documentation and workflows
-2. **Check scripts/** - Fix common issues automatically  
-3. **Ask Claude Code** - It knows this system inside out
-4. **Report Issues** - [GitHub Issues](https://github.com/lilGHSTY/web-starter-kit/issues)
+### **How It Works**
+1. **Book a consultation** via the contact form
+2. **15-minute discovery call** to understand your needs
+3. **Custom dashboard creation** within 24-48 hours
+4. **Receive magic link** for secure dashboard access
+5. **Review and iterate** until you love your insights
+
+### **What To Prepare**
+- **Business goals** you want to track
+- **Data sources** you currently use (websites, tools, spreadsheets)
+- **Key decisions** these insights will help you make
+- **Budget range** for ongoing dashboard maintenance
+
+---
+
+## 🤝 Contributing
+
+This is a business application, but contributions are welcome for:
+
+- **Bug fixes** and performance improvements
+- **Security enhancements** 
+- **Documentation** improvements
+- **Testing** automation
+
+### Development Setup
+```bash
+git clone https://github.com/lilGHSTY/DataWithIsa.git
+cd DataWithIsa
+cp .env.example .env
+docker-compose up --build
+```
+
+---
+
+## 📞 Contact
+
+### **For Business Inquiries**
+- **Website**: http://localhost:5689 (development)
+- **Email**: hello@datawithisa.com
+- **Consultation**: Book via contact form
+
+### **For Technical Issues**
+- **GitHub Issues**: [Report bugs](https://github.com/lilGHSTY/DataWithIsa/issues)
+- **Documentation**: Check `.claude/` directory for technical details
 
 ---
 
 ## 📜 License
 
-**Public Domain** - Use this however you like! No restrictions, no attribution required.
+**Private Repository** - This is proprietary business software.
+
+For licensing inquiries, contact the repository owner.
 
 ---
 
-**🎉 Ready to build something amazing without the setup headaches?**
+**🚀 Ready to get clear insights into your business data?**
 
-```bash
-git clone https://github.com/lilGHSTY/web-starter-kit.git my-project
-cd my-project && ./bootstrap.sh && claude
-```
+Visit **http://localhost:5689** to see the landing page, or book a consultation to get your custom dashboard built!
 
-*Created to solve the "blank page problem" for AI-assisted web development. Now with Docker reliability and professional documentation standards.*
+*Turning complex data into clear decisions for small businesses since 2025.*

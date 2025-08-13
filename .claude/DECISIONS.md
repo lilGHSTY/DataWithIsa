@@ -1,6 +1,6 @@
-# Project Decisions
+# Technical Decisions - DataWithIsa
 
-This file documents all technical decisions for this project. Check here first before making implementation choices.
+This document captures all major technical decisions made for the DataWithIsa project, including the rationale behind each choice.
 
 ## ⚠️ CORE STACK (DO NOT CHANGE)
 These are fundamental decisions that should NOT be changed without explicit user approval:
@@ -8,79 +8,105 @@ These are fundamental decisions that should NOT be changed without explicit user
 - **Frontend**: Vanilla HTML/CSS/JS (not React, Vue, Angular)
 - **Database**: SQLite/PostgreSQL (not MongoDB, Firebase)
 - **Language**: Python 3.11+ (not Node.js, Ruby, etc.)
+- **Development**: Docker-first approach with port 5689
 
-If the user requests a change to the core stack, update this file to reflect the new decision.
+**Rationale**: Simplicity, maintainability, and fast time-to-market for a dashboard service business.
 
 ## Frontend
-- **Framework**: Vanilla HTML/CSS/JS (no framework)
-- **Styling**: Custom CSS with utility classes
-- **Interactivity**: Vanilla JavaScript, add HTMX if needed later
-- **Build Tool**: None initially (static files)
-- **Icons**: [TBD - ask user when needed]
-- **Fonts**: [TBD - ask user when needed]
+- **Framework**: Vanilla HTML/CSS/JS - no build complexity, faster loads
+- **Styling**: Custom CSS with Severance-inspired design (Olivine #8EAB81 theme)
+- **Interactivity**: Vanilla JavaScript for dashboards, Chart.js for visualizations
+- **Build Tool**: None - static files served directly
+- **Icons**: SVG inline icons for performance
+- **Fonts**: System fonts for fast loading
+- **Design Philosophy**: Cozy office aesthetic, not cold corporate
 
 ## Backend  
 - **Language**: Python 3.11+
-- **Framework**: Flask (minimal mode)
-- **API Style**: RESTful JSON endpoints
-- **Template Engine**: Jinja2 (comes with Flask)
-- **Error Handling**: JSON responses with appropriate HTTP codes
+- **Framework**: Flask 3.0.3 - lightweight, perfect for dashboards
+- **API Style**: Server-side rendering first, JSON API for dynamic updates
+- **Template Engine**: Jinja2 for dashboard rendering
+- **Error Handling**: User-friendly error pages with support options
 
 ## Database
-- **Development**: SQLite (file-based, zero config)
-- **Production**: PostgreSQL (when ready to scale)
-- **ORM**: Raw SQL initially, add SQLAlchemy when needed
-- **Migrations**: Track changes in migrations/ folder
-- **Backups**: [TBD - implement when going to production]
+- **Development**: SQLite for rapid prototyping
+- **Production**: PostgreSQL 15 (already in Docker setup)
+- **ORM**: SQLAlchemy 2.0 for type safety and migrations
+- **Migrations**: Alembic for version control
+- **Widget Storage**: JSON columns for flexible dashboard configs
+- **Backups**: Daily pg_dump when in production
 
 ## Authentication
-- **Method**: Session-based (Flask-Session)
-- **Storage**: Server-side sessions
-- **Password Hashing**: Werkzeug (comes with Flask)
-- **Remember Me**: Optional 30-day cookie
-- **Password Reset**: [TBD - add when needed]
+- **Method**: Magic links only - NO passwords
+- **Delivery**: SendGrid transactional emails
+- **Expiration**: 1-hour magic links
+- **Admin**: Environment variable credentials only
+- **Client Access**: Unique dashboard URLs with tokens
 
 ## Infrastructure
-- **Version Control**: Git + GitHub
-- **Hosting**: Digital Ocean App Platform (when ready)
-- **File Storage**: Local → Digital Ocean Spaces (when needed)
-- **CDN**: [TBD - add if performance requires]
-- **Domain**: [TBD - user will provide]
+- **Version Control**: Git + GitHub (private repo)
+- **Hosting**: Digital Ocean Droplet with Nginx
+- **File Storage**: Local initially, DO Spaces for client assets
+- **CDN**: Cloudflare for 3D assets (post-MVP)
+- **Domain**: datawithisa.com (when registered)
+- **SSL**: Let's Encrypt from day one
 
 ## Development Workflow
-- **Environment**: Virtual environment (venv)
-- **Dependencies**: requirements.txt
-- **Secrets**: .env files (python-dotenv)
-- **Docker**: Not initially (add if deployment requires)
-- **Testing**: Manual first, automated later
+- **Environment**: Docker Compose (web + PostgreSQL)
+- **Dependencies**: requirements.txt with pinned versions
+- **Secrets**: .env files (never committed)
+- **Port**: 5689 (project-specific, consistent)
+- **Testing**: Manual validation, add tests after first client
 
 ## Security
-- **HTTPS**: Required in production
-- **CORS**: Configure as needed for API
-- **Rate Limiting**: [TBD - add when public]
-- **Input Validation**: Server-side always, client optional
-- **File Uploads**: Whitelist extensions, scan for malware
+- **HTTPS**: Always, even in development
+- **CORS**: Restricted to specific domains
+- **Rate Limiting**: 10 requests/minute for forms
+- **Input Validation**: Bleach for sanitization, server-side always
+- **Client Data**: Isolated by database schemas
+- **No Passwords**: Magic links eliminate password vulnerabilities
 
 ## Performance Targets
-- **Page Load**: Under 3 seconds
+- **Landing Page**: Under 2 seconds (critical for conversion)
+- **Dashboard Load**: Under 3 seconds (including data)
 - **API Response**: Under 500ms
-- **Database Queries**: Under 100ms
-- **Concurrent Users**: Start with 100, scale as needed
+- **Concurrent Users**: 100 initially, scale at 50 clients
 
 ## Third-Party Services
-- **Email**: [TBD - ask user when needed]
-- **Payment Processing**: [TBD - ask user when needed]
-- **Analytics**: [TBD - ask user when needed]
-- **Error Tracking**: [TBD - consider Sentry when live]
+- **Email**: SendGrid for magic links and notifications
+- **Payment**: Stripe (when ready for payments)
+- **Data Extraction**: Jina.ai for intelligent web scraping
+- **Analytics**: Google Analytics for client dashboards
+- **3D Assets**: Spline.design (post-MVP enhancement)
+- **Error Tracking**: Keep it simple with logs initially
 
-## Future Considerations
-As the project grows, consider:
-- Redis for caching (when response times slow)
-- Celery for background jobs (when tasks take >5 seconds)
-- CDN for static assets (when global users increase)
-- Load balancer (when single server maxes out)
+## DataWithIsa-Specific Decisions
+
+### Business Model
+- **Service Type**: Done-for-you, NOT self-service
+- **Dashboard Creation**: Manual by Isa, not automated
+- **Pricing**: $300/month foundation, modular add-ons
+- **Target**: Small businesses ($100K-$2M revenue)
+
+### Data Strategy
+- **Collection**: Jina.ai for AI-powered extraction
+- **Updates**: Weekly default, configurable per client
+- **Storage**: JSON in PostgreSQL for flexibility
+- **Visualization**: Chart.js for all graphs
+
+### Scaling Strategy
+- **0-10 clients**: Single server, manual updates
+- **10-50 clients**: Add Redis, automate updates
+- **50+ clients**: Multiple servers, dedicated database
+- **100+ clients**: Consider hiring, API development
+
+## Decisions NOT Made Yet
+- Mobile app (validate web-first approach)
+- White-labeling (focus on DataWithIsa brand)
+- API access for clients (gauge demand first)
+- Internationalization (US market first)
 
 ---
 
-**Note**: Update this file whenever a new technical decision is made. Format: 
-- **Category**: Decision (reason if not obvious)
+**Last Updated**: 2025-08-13
+**Review Schedule**: After first 5 paying clients
